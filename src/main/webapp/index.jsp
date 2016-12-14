@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,14 +13,6 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    <c:choose>
-                        <c:when test="${isSaved eq 0}">
-                            bir hata oluştu.
-                        </c:when>
-                        <c:when test="${isSaved eq 1}">
-                            tweetler başarıyla çekilip kaydedildi.
-                        </c:when>
-                    </c:choose>
                     <h2>Veri Seti Oluştur</h2>
 
                     <form method="post" action="fetchbyhashtag">
@@ -34,6 +26,19 @@
                         </div>
                         <button type="submit" class="btn btn-success">Getir</button>
                     </form>
+                    <c:choose>
+                        <c:when test="${isSaved == 1}">
+                            <div class="alert alert-success">
+                                tweetler başarıyla çekilip kaydedildi.
+                            </div>
+                        </c:when>
+                        <c:when test="${isSaved eq 2}">
+                            <div class="alert alert-danger">
+                                bir hata oluştu.
+                            </div>
+                        </c:when>
+
+                    </c:choose>
                 </div>
             </div>
         </div>

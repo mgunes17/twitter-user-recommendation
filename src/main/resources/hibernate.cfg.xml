@@ -10,7 +10,7 @@
         <property name="show_sql">true</property>
 
         <!-- Veritabanı bağlantı bilgileri -->
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/announcement_service</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/user_recommendation</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">postgres</property>
 

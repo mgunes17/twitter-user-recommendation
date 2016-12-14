@@ -5,6 +5,7 @@ import model.PlainTweet;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.postgresql.util.PSQLException;
 
 import java.util.List;
 
@@ -17,11 +18,15 @@ public class PlainTweetDAO {
     public boolean savePlainTweetList(List<PlainTweet> plainTweets){
         session = HibernateConfiguration.getSessionFactory().openSession();
         try{
-            session.getTransaction().begin();
+            session.beginTransaction();
+
             for(PlainTweet pl: plainTweets){
-                session.save(pl);
+                session.saveOrUpdate(pl);
             }
+
+            session.flush();
             session.getTransaction().commit();
+
             return true;
         }catch(Exception ex){
             System.out.println(ex.getMessage());

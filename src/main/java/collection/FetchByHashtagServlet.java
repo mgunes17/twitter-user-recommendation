@@ -18,6 +18,7 @@ import java.util.List;
 @WebServlet(name = "FetchByHashtagServlet", urlPatterns = {"/fetchbyhashtag"})
 public class FetchByHashtagServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession httpSession = request.getSession();
         String hashtag = request.getParameter("hashtag");
         int count = Integer.parseInt(request.getParameter("count"));
@@ -28,7 +29,7 @@ public class FetchByHashtagServlet extends HttpServlet {
         if(plainTweetDAO.savePlainTweetList(plainTweetList)){
             httpSession.setAttribute("isSaved", 1);
         } else {
-            httpSession.setAttribute("isSaved", 0);
+            httpSession.setAttribute("isSaved", 2);
         }
 
         response.sendRedirect("index.jsp");
