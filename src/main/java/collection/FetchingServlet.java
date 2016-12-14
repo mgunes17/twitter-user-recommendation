@@ -43,7 +43,7 @@ public class FetchingServlet extends HttpServlet {
             }*/
 
             for(Status s2: status2) {
-                System.out.println(s2.getUser().getScreenName()  + "   " + s2.);
+                System.out.println(s2.getUser().getScreenName()  + "   " + s2.getText());
                 System.out.println("------------");
 
             }
