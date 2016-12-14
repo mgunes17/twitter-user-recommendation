@@ -15,5 +15,6 @@
         <property name="hibernate.connection.password">postgres</property>
 
         <!-- Mapping sınıfları -->
+        <mapping class="model.PlainTweet"/>
     </session-factory>
 </hibernate-configuration>
