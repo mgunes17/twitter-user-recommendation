@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -12,6 +13,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
+                    <c:choose>
+                        <c:when test="${isSaved eq 0}">
+                            bir hata oluştu.
+                        </c:when>
+                        <c:when test="${isSaved eq 1}">
+                            tweetler başarıyla çekilip kaydedildi.
+                        </c:when>
+                    </c:choose>
                     <h2>Veri Seti Oluştur</h2>
 
                     <form method="post" action="fetchbyhashtag">
