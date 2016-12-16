@@ -13,18 +13,18 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by ercan on 14.12.2016.
+ * Created by ercan on 16.12.2016.
  */
-@WebServlet(name = "FetchByHashtagServlet", urlPatterns = {"/fetchbyhashtag"})
-public class FetchByHashtagServlet extends HttpServlet {
+@WebServlet(name = "FetchByUsernameServlet", urlPatterns = {"/fetchbyusername"})
+public class FetchByUsernameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
         HttpSession httpSession = request.getSession();
-        String hashtag = request.getParameter("keyword");
+        String username = request.getParameter("keyword");
         int count = Integer.parseInt(request.getParameter("count"));
-        FetchTweet fetchTweet = new FetchTweet(hashtag, count);
-        List<PlainTweet> plainTweetList = fetchTweet.getTweetsByHashtag();
+        FetchTweet fetchTweet = new FetchTweet(username, count);
+        List<PlainTweet> plainTweetList = fetchTweet.getTweetsByUsername();
         PlainTweetDAO plainTweetDAO = new PlainTweetDAO();
 
         if(plainTweetDAO.savePlainTweetList(plainTweetList)){
