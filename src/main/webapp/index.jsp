@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -15,21 +15,26 @@
                 <div class="col-md-3">
                     <h2>Veri Seti Oluştur</h2>
 
-                    <form method="post" action="fetchbyhashtag">
+                    <form method="post">
                         <div class="form-group">
-                            <label for="hashtag">Hashtag:</label>
-                            <input type="text" id="hashtag" name="hashtag" class="form-control">
+                            <label for="keyword">Hashtag/username:</label>
+                            <input type="text" id="keyword" name="keyword" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="count">Tweet Sayısı</label>
                             <input type="text" id="count" name="count" class="form-control">
                         </div>
-                        <button type="submit" class="btn btn-success">Getir</button>
+                        <div class="form-group row">
+                            <button class="btn btn-success" type="submit" formaction="fetchbyhashtag">Hashtag'e göre getir</button>
+                            <button class="btn btn-primary" type="submit" formaction="fetchbyusername">Username'e göre getir</button>
+                        </div>
                     </form>
+
                     <c:choose>
                         <c:when test="${isSaved == 1}">
                             <div class="alert alert-success">
                                 tweetler başarıyla çekilip kaydedildi.
+                                getirilen toplam tweet sayısı : ${tweetCount}"
                             </div>
                         </c:when>
                         <c:when test="${isSaved eq 2}">
