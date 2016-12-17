@@ -1,11 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html xmlns:c="http://java.sun.com/jsp/jstl/core">
-<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
     <head>
         <title>Anasayfa</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -53,19 +53,19 @@
                         </div>
                     </form>
                     <c:choose>
-                        <c:when test="${isParsed == 1}">
+                        <c:when test="${isParsed eq '1'}">
                             <div class="alert alert-success">
-                                parse edilen tweet sayısı : ${parsetTweetCount}"
+                                parse edilen tweet sayısı : ${parsedTweetCount}"
                             </div>
                         </c:when>
-                        <c:when test="${isParsed eq 2}">
+                        <c:when test="${2 = 2}">
                             <div class="alert alert-danger">
                                 bir hata oluştu.
                             </div>
                         </c:when>
                         <c:otherwise>
                             <div class="alert alert-danger">
-                                bir hata oluştu.
+                                bir sfd oluştu.
                             </div>
                         </c:otherwise>
                     </c:choose>

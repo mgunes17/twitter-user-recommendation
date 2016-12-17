@@ -19,7 +19,7 @@ CREATE TABLE all_words (
 
 CREATE TABLE ordered_word_list (
 	id bigint REFERENCES plain_tweet(id),
-	hastag char(100),
+	hashtag char(100),
 	impact_rate real,
 	ordered_words char(160),
 	primary key (id)

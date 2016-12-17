@@ -1,5 +1,6 @@
 package parsing;
 
+import hibernate.ParsedTweetDAO;
 import hibernate.PlainTweetDAO;
 import hibernate.WordDAO;
 import model.ParsedTweet;
@@ -13,9 +14,11 @@ import java.util.List;
  */
 public class ParseAlgorithm {
     private List<PlainTweet> plainTweets;
+    private List<ParsedTweet> parsedTweets;
 
     public ParseAlgorithm() {
         plainTweets = new ArrayList<PlainTweet>();
+        parsedTweets = new ArrayList<ParsedTweet>();
     }
 
     public int parseNewTweets() {
@@ -42,7 +45,11 @@ public class ParseAlgorithm {
                 parsedTweet.setOrderedWords(tempWords.toString());
             }
 
+            parsedTweets.add(parsedTweet);
         }
+
+        ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
+        parsedTweetDAO.saveParsedList(parsedTweets);
 
         return count;
     }
