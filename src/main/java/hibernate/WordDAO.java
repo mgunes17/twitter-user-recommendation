@@ -2,7 +2,6 @@ package hibernate;
 
 import configuration.HibernateConfiguration;
 import model.AllWords;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -15,10 +14,19 @@ public class WordDAO {
     private Session session;
 
     public boolean isWordExist(String word) {
+        String hql = "FROM AllWords WHERE word = :word";
+        return isObjectExist(word, hql);
+    }
+
+    public boolean isStopWord(String word) {
+        String hql = "FROM StopWords WHERE word = :word";
+        return isObjectExist(word, hql);
+    }
+
+    public boolean isObjectExist(String word, String hql) {
         session = HibernateConfiguration.getSessionFactory().openSession();
 
         try {
-            String hql = "FROM AllWords WHERE word = :word";
             Query query = session.createQuery(hql);
             query.setString("word", word);
 
@@ -36,4 +44,5 @@ public class WordDAO {
             session.close();
         }
     }
+
 }

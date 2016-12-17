@@ -37,7 +37,7 @@ public class ParseAlgorithm {
             for(String word: words) {
                 word.toLowerCase();
 
-                if(word.charAt(0) != '#' && wordDAO.isWordExist(word)) {
+                if(!word.contains("#") && wordDAO.isWordExist(word) && !wordDAO.isStopWord(word)) {
                     tempWords.append(word + "-");
                     count++;
                 }
@@ -60,13 +60,16 @@ public class ParseAlgorithm {
         int j = 0;
 
         while(i < words.length && j < 2) {
-            if(words[i].charAt(0) == '#') {
+            if(words[i].contains("#")) {
                 hashtag = words[i];
                 j++;
             }
 
             i++;
         }
+
+        if(j == 2)
+            return null;
 
         return hashtag;
     }

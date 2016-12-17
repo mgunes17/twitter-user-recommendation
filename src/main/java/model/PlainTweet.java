@@ -33,7 +33,7 @@ public class PlainTweet implements Serializable {
     private int retweetCount;
 
     @Column(name = "created_date")
-    private Date createdCate;
+    private Date createdDate;
 
     public long getId() {
         return id;
@@ -83,11 +83,11 @@ public class PlainTweet implements Serializable {
         this.retweetCount = retweetCount;
     }
 
-    public Date getCreatedCate() {
-        return createdCate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
     public void setCreatedCate(Date createdCate) {
-        this.createdCate = createdCate;
+        this.createdDate = createdCate;
     }
 }
