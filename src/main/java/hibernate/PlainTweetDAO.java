@@ -30,11 +30,10 @@ public class PlainTweetDAO extends AbstractDAO {
                     " from ParsedTweet AS o, PlainTweet AS p " +
                     " where o.id <> p.id  and p.tweet NOT LIKE 'RT%'";*/
 
-            String sql =
-                    " from PlainTweet AS p " ;
+            String sql = "from PlainTweet";
 
             Query query = session.createQuery(sql);
-            plainTweets = (List<PlainTweet>) query.list();
+            plainTweets =  query.list();
 
             return plainTweets;
         } catch(Exception ex){

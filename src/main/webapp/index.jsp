@@ -32,7 +32,7 @@
                     </form>
 
                     <c:choose>
-                        <c:when test="${isSaved == 1}">
+                        <c:when test="${isSaved eq 1}">
                             <div class="alert alert-success">
                                 tweetler başarıyla çekilip kaydedildi.
                                 getirilen toplam tweet sayısı : ${tweetCount}"
@@ -53,21 +53,16 @@
                         </div>
                     </form>
                     <c:choose>
-                        <c:when test="${isParsed eq '1'}">
+                        <c:when test="${isParsed eq 1}">
                             <div class="alert alert-success">
                                 parse edilen tweet sayısı : ${parsedTweetCount}"
                             </div>
                         </c:when>
-                        <c:when test="${2 = 2}">
+                        <c:when test="${isParsed eq 2}">
                             <div class="alert alert-danger">
                                 bir hata oluştu.
                             </div>
                         </c:when>
-                        <c:otherwise>
-                            <div class="alert alert-danger">
-                                bir sfd oluştu.
-                            </div>
-                        </c:otherwise>
                     </c:choose>
                 </div>
             </div>

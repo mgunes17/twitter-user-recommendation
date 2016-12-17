@@ -9,11 +9,11 @@ CREATE TABLE plain_tweet (
 );
 
 CREATE TABLE stop_words (
-	word char(50) primary key
+	word varchar(50) primary key
 );
 
 CREATE TABLE all_words (
-	word char(50) primary key,
+	word varchar(50) primary key,
 	value int
 );
 
@@ -22,6 +22,12 @@ CREATE TABLE ordered_word_list (
 	hashtag char(100),
 	impact_rate real,
 	ordered_words char(160),
+	category int REFERENCES category(id),
 	primary key (id)
+);
+
+CREATE TABLE category (
+	id int primary key,
+	title varchar(20)
 );
 
