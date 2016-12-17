@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "ordered_word_list")
 @PrimaryKeyJoinColumn(name="id")
-public class OrderedWordList extends PlainTweet implements Serializable{
+public class ParsedTweet extends PlainTweet implements Serializable{
 
     @Column(name = "hashtag")
     private String hashtag;

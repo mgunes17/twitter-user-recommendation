@@ -16,10 +16,13 @@ public class ParseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession httpSession = request.getSession();
-        int parsedTweetCount = 5;
+
+        ParseAlgorithm parseAlgorithm = new ParseAlgorithm();
+        int parsedTweetCount = parseAlgorithm.parseNewTweets();
 
         httpSession.setAttribute("isParsed", 1);
-        httpSession.setAttribute("parsetTweetCount", parsedTweetCount);
+        httpSession.setAttribute("isSaved", 0);
+        httpSession.setAttribute("parsedTweetCount", parsedTweetCount);
         System.out.println("asd");
         response.sendRedirect("index.jsp");
 

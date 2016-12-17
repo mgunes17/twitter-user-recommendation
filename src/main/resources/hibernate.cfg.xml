@@ -16,7 +16,7 @@
 
         <!-- Mapping sınıfları -->
         <mapping class="model.PlainTweet"/>
-        <mapping class="model.OrderedWordList"/>
+        <mapping class="model.ParsedTweet"/>
         <mapping class="model.StopWords"/>
         <mapping class="model.AllWords"/>
     </session-factory>

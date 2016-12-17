@@ -32,6 +32,8 @@ public class FetchByUsernameServlet extends HttpServlet {
         } else {
             httpSession.setAttribute("isSaved", 2);
         }
+
+        httpSession.setAttribute("isParsed", 0);
         httpSession.setAttribute("tweetCount", plainTweetList.size());
         response.sendRedirect("index.jsp");
     }
