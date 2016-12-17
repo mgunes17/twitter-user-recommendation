@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html xmlns:c="http://java.sun.com/jsp/jstl/core">
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -17,11 +18,11 @@
 
                     <form method="post">
                         <div class="form-group">
-                            <label for="keyword">Hashtag/username:</label>
+                            <label for="keyword">Hashtag/Username</label>
                             <input type="text" id="keyword" name="keyword" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="count">Tweet Sayısı</label>
+                            <label for="count">Maximum Tweet Sayısı</label>
                             <input type="text" id="count" name="count" class="form-control">
                         </div>
                         <div class="form-group row">
@@ -42,7 +43,31 @@
                                 bir hata oluştu.
                             </div>
                         </c:when>
-
+                    </c:choose>
+                </div>
+                <div class="cold-md-3">
+                    <h2>Tweetleri Parse Et</h2>
+                    <form method="post" action="parse">
+                        <div class="form-group row">
+                            <button class="btn btn-success" type="submit" >Parse et</button>
+                        </div>
+                    </form>
+                    <c:choose>
+                        <c:when test="${isParsed == 1}">
+                            <div class="alert alert-success">
+                                parse edilen tweet sayısı : ${parsetTweetCount}"
+                            </div>
+                        </c:when>
+                        <c:when test="${isParsed eq 2}">
+                            <div class="alert alert-danger">
+                                bir hata oluştu.
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="alert alert-danger">
+                                bir hata oluştu.
+                            </div>
+                        </c:otherwise>
                     </c:choose>
                 </div>
             </div>
