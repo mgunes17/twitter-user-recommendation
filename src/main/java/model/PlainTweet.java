@@ -87,7 +87,7 @@ public class PlainTweet implements Serializable {
         return createdDate;
     }
 
-    public void setCreatedCate(Date createdCate) {
-        this.createdDate = createdCate;
+    public void setCreatedCate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }

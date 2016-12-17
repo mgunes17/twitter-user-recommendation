@@ -19,5 +19,6 @@
         <mapping class="model.ParsedTweet"/>
         <mapping class="model.StopWords"/>
         <mapping class="model.AllWords"/>
+        <mapping class="model.Category"/>
     </session-factory>
 </hibernate-configuration>

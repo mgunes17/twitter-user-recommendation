@@ -10,17 +10,33 @@ import java.util.Date;
 
 @Entity
 @Table(name = "ordered_word_list")
-@PrimaryKeyJoinColumn(name="id")
-public class ParsedTweet extends PlainTweet implements Serializable{
+//@PrimaryKeyJoinColumn(name="id")
+public class ParsedTweet  implements Serializable{
+
+    @Id
+    @Column(name="id")
+    private long id;
 
     @Column(name = "hashtag")
     private String hashtag;
 
     @Column(name = "impact_rate")
-    private float impactRate;
+    private float impactRate = 0.0f;
 
     @Column(name = "ordered_words")
     private String orderedWords;
+
+    @ManyToOne
+    @JoinColumn(name = "category")
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public String getHashtag() {
         return hashtag;
@@ -44,5 +60,13 @@ public class ParsedTweet extends PlainTweet implements Serializable{
 
     public void setOrderedWords(String orderedWords) {
         this.orderedWords = orderedWords;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
