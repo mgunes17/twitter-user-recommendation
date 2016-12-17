@@ -1,17 +1,16 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by ercan on 14.12.2016.
  */
+
 @Entity
 @Table(name = "plain_tweet")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class PlainTweet implements Serializable {
 
     @Id
