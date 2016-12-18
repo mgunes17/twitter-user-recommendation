@@ -18,8 +18,8 @@
     <body>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
-                    <form method="post" action="#">
+                <div class="col-md-8">
+                    <form method="post" action="savetrainingdata">
                         <table class="table table-stripped">
                             <thead>
                                 <tr>
@@ -34,18 +34,18 @@
                                         <td>${item.orderedWords}</td>
                                         <td>
                                             <select name="category" class="form-control">
-                                                <c:forEach var="item" items="${categoryList}">
-                                                    <option value="${item.id}">
-                                                        <c:out value="${item.title}"/>
+                                                <c:forEach var="item2" items="${categoryList}">
+                                                    <option value="${item.orderedWords}_${item2.id}">
+                                                        <c:out value="${item2.title}"/>
                                                     </option>
                                                 </c:forEach>
                                             </select>
                                         </td>
                                         <td>
                                             <select name="sentiment" class="form-control">
-                                                <c:forEach var="item" items="${sentimentList}">
-                                                    <option value="${item.id}">
-                                                        <c:out value="${item.title}"/>
+                                                <c:forEach var="item3" items="${sentimentList}">
+                                                    <option value="${item.orderedWords}_${item3.id}">
+                                                        <c:out value="${item3.title}"/>
                                                     </option>
                                                 </c:forEach>
                                             </select>
