@@ -58,19 +58,22 @@ public class ParseAlgorithm {
                     if(!word.contains("#") && !word.contains("@") && !word.contains("'")
                            && word.length() > 3 && !word.contains("rt")){
                         totalWords++;
+                        try{
+                            //köküne ayır
+                            List<WordAnalysis> results = morphology.analyze(word);
 
-                        //köküne ayır
+                            //kelime sözlükte var
+                            if(results.size() > 0 && !results.get(0).getLemma().equals("UNK")) {
+                                countedWords++;
 
-                        List<WordAnalysis> results = morphology.analyze(word);
-
-                        //kelime sözlükte var
-                        if(results.size() > 0 && !results.get(0).getLemma().equals("UNK")) {
-                            countedWords++;
-
-                            if(!wordDAO.isStopWord(word)) {
-                                tempWords.append(results.get(0).root + "-");
+                                if(!wordDAO.isStopWord(word)) {
+                                    tempWords.append(results.get(0).root + "-");
+                                }
                             }
+                        } catch(Exception ex){
+                            System.out.println(ex.getMessage());
                         }
+
                     }
                     parsedTweet.setOrderedWords(tempWords.toString());
                 }
