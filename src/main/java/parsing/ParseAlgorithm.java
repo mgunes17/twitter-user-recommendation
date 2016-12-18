@@ -6,7 +6,10 @@ import hibernate.WordDAO;
 import model.AllWords;
 import model.ParsedTweet;
 import model.PlainTweet;
+import zemberek.morphology.analysis.WordAnalysis;
+import zemberek.morphology.analysis.tr.TurkishMorphology;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class ParseAlgorithm {
     }
 
     public int parseNewTweets() {
+        TurkishMorphology morphology = null;
         PlainTweetDAO plainTweetDAO = new PlainTweetDAO();
         plainTweets = plainTweetDAO.getRawTweets();
         ParsedTweet parsedTweet ;
@@ -30,42 +34,55 @@ public class ParseAlgorithm {
         int count = 0;
         WordAlgorithm wordAlgorithm = new WordAlgorithm();
 
-        for(PlainTweet plainTweet: plainTweets) {
-            StringBuilder tempWords = new StringBuilder();
-            parsedTweet = new ParsedTweet();
-            String[] words = plainTweet.getTweet().split(" ");
-            parsedTweet.setHashtag(findHashtag(words));
-            parsedTweet.setId(plainTweet.getId());
-            int countedWords = 0;
+        try {
+            morphology = TurkishMorphology.createWithDefaults();
 
-            for(String word: words) {
-                word = word.toLowerCase();
+            for(PlainTweet plainTweet: plainTweets) {
+                StringBuilder tempWords = new StringBuilder();
+                parsedTweet = new ParsedTweet();
+                String[] words = plainTweet.getTweet().split(" ");
 
-                if(!word.contains("#") && !wordDAO.isStopWord(word) && !word.contains("'")){
-                    if(wordDAO.isWordExist(word)){
-                        tempWords.append(word + "-");
-                        countedWords++;
-                    } else {
-                        /*try {
-                            if(!word.equals("rt") && word.charAt(0) <= 'z' && word.charAt(0) >= 'a'){
-                                List<AllWords> wordsWithFirstLetter = wordDAO.getWordsWithFirstLetter(word.charAt(0), word.length());
-                                AllWords correctWord = wordAlgorithm.findClosestWord(wordsWithFirstLetter, word);
-                                System.out.println(correctWord.getWord() + " ve " + word);
-                                tempWords.append(correctWord + "-");
-                                countedWords++;
-                                wordsWithFirstLetter.clear();
+                //kelime başındaki-sonundaki . , ! ? = " " temizlenecek
+                words = cleanPunctuation(words);
+
+                //parsedTweet.setHashtag(findHashtag(words));
+
+                parsedTweet.setId(plainTweet.getId());
+
+                int countedWords = 0; //zemberek tarafından parse edilebilen kelime sayısı
+                int totalWords = 0; // özel isim, hashtag, mention hariç kelime sayısı
+
+                for(String word: words) {
+                    word = word.toLowerCase();
+
+                    if(!word.contains("#") && !word.contains("@") && !word.contains("'")
+                           && word.length() > 3 && !word.contains("rt")){
+                        totalWords++;
+
+                        //köküne ayır
+
+                        List<WordAnalysis> results = morphology.analyze(word);
+
+                        //kelime sözlükte var
+                        if(results.size() > 0 && !results.get(0).getLemma().equals("UNK")) {
+                            countedWords++;
+
+                            if(!wordDAO.isStopWord(word)) {
+                                tempWords.append(results.get(0).root + "-");
                             }
-                        }catch(Exception ex){
-                            System.out.println(ex.getMessage());
-                        }*/
+                        }
                     }
+                    parsedTweet.setOrderedWords(tempWords.toString());
                 }
 
-                parsedTweet.setOrderedWords(tempWords.toString());
+                if(countedWords > 0) {
+                    parsedTweet.setImpactRate((float)countedWords / totalWords);
+                    count++;
+                    parsedTweets.add(parsedTweet);
+                }
             }
-            parsedTweet.setImpactRate((float)countedWords / words.length);
-            count++;
-            parsedTweets.add(parsedTweet);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
@@ -92,5 +109,39 @@ public class ParseAlgorithm {
             return null;
 
         return hashtag;
+    }
+
+    private String[] cleanPunctuation(String[] words) {
+        for(int i = 0; i < words.length; i++) {
+            if(words.length > 1) {
+                try {
+                    words[i] = clean(words[i]);
+                } catch (StringIndexOutOfBoundsException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+
+
+        }
+
+        return words;
+    }
+
+    protected String clean(String s) throws StringIndexOutOfBoundsException {
+        int length = s.length() - 1;
+
+        if(s.charAt(0) == '?' || s.charAt(0) == '.' || s.charAt(0) == ','
+                || s.charAt(0) == '"' || s.charAt(0) == '"' || s.charAt(0) == '='
+                ||  s.charAt(0) == '!' || s.charAt(0) == '(' || s.charAt(0) == ')'
+                ||  s.charAt(0) == '-' ||  s.charAt(0) == '-') {
+            return s.substring(1, s.length());
+        } else if(s.charAt(length) == '?' || s.charAt(length) == '.' || s.charAt(length) == ','
+                || s.charAt(length) == '"' || s.charAt(length) == '"' || s.charAt(length) == '='
+                ||  s.charAt(length) == '!' ||  s.charAt(length) == '(' ||  s.charAt(length) == ')'
+                ||  s.charAt(length) == '-' ||  s.charAt(length) == '-') {
+           return s.substring(0, length);
+        } else {
+            return s;
+        }
     }
 }

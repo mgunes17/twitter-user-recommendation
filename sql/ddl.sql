@@ -1,3 +1,8 @@
+CREATE TABLE category (
+	id int primary key,
+	title varchar(20)
+);
+
 CREATE TABLE plain_tweet (
 	id bigint primary key,
 	tweet varchar(160),
@@ -25,9 +30,3 @@ CREATE TABLE ordered_word_list (
 	category int REFERENCES category(id),
 	primary key (id)
 );
-
-CREATE TABLE category (
-	id int primary key,
-	title varchar(20)
-);
-
