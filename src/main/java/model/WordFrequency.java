@@ -1,14 +1,16 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by mgunes on 18.12.2016.
  */
 @Entity
 @Table(name = "word_frequency")
-public class WordFrequency {
+public class WordFrequency implements Serializable{
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 

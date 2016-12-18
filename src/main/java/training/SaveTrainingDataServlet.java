@@ -2,16 +2,20 @@ package training;
 
 import hibernate.CategoryDAO;
 import hibernate.SentimentDAO;
+import hibernate.WordFrequencyDAO;
 import model.Category;
 import model.Sentiment;
+import model.WordFrequency;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,7 +54,7 @@ public class SaveTrainingDataServlet extends HttpServlet {
             int value;
             for(String word: tweetWords){
                 word.trim();
-                if(wordFrequencyMap.containsKey(word)){
+                if(!word.equals("") && wordFrequencyMap.containsKey(word)){
                     value = wordFrequencyMap.get(word);
                     wordFrequencyMap.put(word, ++value);
                 } else {
@@ -61,7 +65,13 @@ public class SaveTrainingDataServlet extends HttpServlet {
             trainingDataMap.get(category).setWordFrequency(wordFrequencyMap);
         }
 
-        System.out.println("gg");
+        WordFrequencyDAO wordFrequencyDAO = new WordFrequencyDAO();
+        wordFrequencyDAO.saveWordMap(trainingDataMap);
+
+        List<Category> categoryList = new CategoryDAO().getCategoryList();
+        request.getSession().setAttribute("categoryList", categoryList);
+
+        response.sendRedirect("kategori-kelime.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
