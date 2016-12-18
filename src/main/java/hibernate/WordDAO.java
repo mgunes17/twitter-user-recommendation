@@ -2,6 +2,7 @@ package hibernate;
 
 import configuration.HibernateConfiguration;
 import model.AllWords;
+import model.ParsedTweet;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -64,5 +65,4 @@ public class WordDAO {
             session.close();
         }
     }
-
 }

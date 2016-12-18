@@ -1,6 +1,7 @@
 package hibernate;
 
 import configuration.HibernateConfiguration;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -29,6 +30,23 @@ public class AbstractDAO {
             System.out.println(ex.getMessage());;
             ex.printStackTrace();
             return false;
+        } finally {
+            session.close();
+        }
+    }
+
+    protected <T> List<T> getAllRows(String className) {
+        session = HibernateConfiguration.getSessionFactory().openSession();
+
+        try {
+            String select = "FROM " + className;
+            Query query = session.createQuery(select);
+            List<Object> rows = query.list();
+            return (List<T>) rows;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());;
+            ex.printStackTrace();
+            return null;
         } finally {
             session.close();
         }
