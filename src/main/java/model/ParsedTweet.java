@@ -30,6 +30,10 @@ public class ParsedTweet  implements Serializable{
     @JoinColumn(name = "category")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "sentiment")
+    private Sentiment sentiment;
+
     public Category getCategory() {
         return category;
     }
@@ -68,5 +72,13 @@ public class ParsedTweet  implements Serializable{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(Sentiment sentiment) {
+        this.sentiment = sentiment;
     }
 }

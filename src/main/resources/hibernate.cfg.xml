@@ -20,5 +20,6 @@
         <mapping class="model.StopWords"/>
         <mapping class="model.AllWords"/>
         <mapping class="model.Category"/>
+        <mapping class="model.Sentiment"/>
     </session-factory>
 </hibernate-configuration>

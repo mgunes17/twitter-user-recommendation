@@ -23,7 +23,7 @@
                         </div>
                         <div class="form-group">
                             <label for="count">Maximum Tweet Sayısı</label>
-                            <input type="text" id="count" name="count" class="form-control">
+                            <input type="text" id="count" name="count" value="500" class="form-control">
                         </div>
                         <div class="form-group row">
                             <button class="btn btn-success" type="submit" formaction="fetchbyhashtag">Hashtag'e göre getir</button>
@@ -45,7 +45,7 @@
                         </c:when>
                     </c:choose>
                 </div>
-                <div class="cold-md-3">
+                <div class="col-md-3">
                     <h2>Tweetleri Parse Et</h2>
                     <form method="post" action="parse">
                         <div class="form-group row">
@@ -64,6 +64,15 @@
                             </div>
                         </c:when>
                     </c:choose>
+                </div>
+                <div class="col-md-3">
+                    <form method="post" action="createtrainingdata">
+                        <div class="form-group">
+                            <label for="randomCount">Etiketlemek istediğiniz tweet sayısı:</label>
+                            <input type="text" name="randomTweetCount" id="randomCount" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">Getir</button>
+                    </form>
                 </div>
             </div>
         </div>

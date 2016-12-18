@@ -22,11 +22,17 @@ CREATE TABLE all_words (
 	value int
 );
 
+CREATE TABLE sentiment (
+	id int primary key,
+	title varchar(50)
+);
+
 CREATE TABLE ordered_word_list (
 	id bigint REFERENCES plain_tweet(id),
 	hashtag char(100),
 	impact_rate real,
 	ordered_words char(160),
 	category int REFERENCES category(id),
+	sentiment int REFERENCES sentiment(id),
 	primary key (id)
 );
