@@ -1,10 +1,12 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ercan on 17.12.2016.
@@ -20,6 +22,11 @@ public class Category implements Serializable{
     @Column(name = "title")
     private String title;
 
+    @OneToMany(mappedBy="category", targetEntity=WordFrequency.class,
+            fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<WordFrequency> wordFrequencies = new ArrayList<WordFrequency>();
+
     public int getId() {
         return id;
     }
@@ -34,5 +41,13 @@ public class Category implements Serializable{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<WordFrequency> getWordFrequencies() {
+        return wordFrequencies;
+    }
+
+    public void setWordFrequencies(List<WordFrequency> wordFrequencies) {
+        this.wordFrequencies = wordFrequencies;
     }
 }

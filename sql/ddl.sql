@@ -6,8 +6,8 @@ CREATE TABLE category (
 CREATE TABLE plain_tweet (
 	id bigint primary key,
 	tweet varchar(160),
-	screen_name char(100),
-	user_name char(100),
+	screen_name varchar(100),
+	user_name varchar(100),
 	favorite_count int,
 	retweet_count int,
 	created_date timestamp
@@ -29,10 +29,17 @@ CREATE TABLE sentiment (
 
 CREATE TABLE ordered_word_list (
 	id bigint REFERENCES plain_tweet(id),
-	hashtag char(100),
+	hashtag varchar(100),
 	impact_rate real,
-	ordered_words char(160),
+	ordered_words varchar(160),
 	category int REFERENCES category(id),
 	sentiment int REFERENCES sentiment(id),
 	primary key (id)
+);
+
+CREATE TABLE word_frequency(
+	id int primary key,
+	category int REFERENCES category(id),
+	word varchar(100),
+	count int
 );

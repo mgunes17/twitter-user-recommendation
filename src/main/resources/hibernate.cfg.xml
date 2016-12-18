@@ -19,5 +19,6 @@
         <mapping class="model.AllWords"/>
         <mapping class="model.Category"/>
         <mapping class="model.Sentiment"/>
+        <mapping class="model.WordFrequency"/>
     </session-factory>
 </hibernate-configuration>
