@@ -1,9 +1,11 @@
 package training;
 
 import hibernate.CategoryDAO;
+import hibernate.ParsedTweetDAO;
 import hibernate.SentimentDAO;
 import hibernate.WordFrequencyDAO;
 import model.Category;
+import model.ParsedTweet;
 import model.Sentiment;
 import model.WordFrequency;
 
@@ -26,6 +28,8 @@ import java.util.Map;
 public class SaveTrainingDataServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        List<ParsedTweet> tweetList = (List<ParsedTweet>) session.getAttribute("tweetList");
 
         String[] categoryResults = request.getParameterValues("category");
         String[] sentimentResults = request.getParameterValues("sentiment");
@@ -41,11 +45,16 @@ public class SaveTrainingDataServlet extends HttpServlet {
             trainingDataMap.put(key, new TrainingData());
         }
 
+        int category;
+        int sentiment;
         for(int i = 0; i < categoryResults.length; i++){
             String [] categoryData = categoryResults[i].split("_");
             String [] sentimentData = sentimentResults[i].split("_");
-            int category = Integer.parseInt(categoryData[1]);
-            int sentiment = Integer.parseInt(sentimentData[1]);
+            category = Integer.parseInt(categoryData[1]);
+            sentiment = Integer.parseInt(sentimentData[1]);
+
+            tweetList.get(i).setCategory(categoryMap.get(category));
+            tweetList.get(i).setSentiment(sentimentMap.get(sentiment));
 
             String [] tweetWords = categoryData[0].split("-");
 
@@ -68,8 +77,11 @@ public class SaveTrainingDataServlet extends HttpServlet {
         WordFrequencyDAO wordFrequencyDAO = new WordFrequencyDAO();
         wordFrequencyDAO.saveWordMap(trainingDataMap);
 
+        ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
+        parsedTweetDAO.saveParsedList(tweetList);
+
         List<Category> categoryList = new CategoryDAO().getCategoryList();
-        request.getSession().setAttribute("categoryList", categoryList);
+        session.setAttribute("categoryList", categoryList);
 
         response.sendRedirect("kategori-kelime.jsp");
     }
