@@ -16,5 +16,9 @@ public class ParseAlgorithmTest {
         assertEquals("test", p.clean("test."));
         assertEquals("test", p.clean("!test"));
         assertEquals("test", p.clean("test"));
+        assertEquals("Güneş", p.clean("Güneş,"));
+        assertEquals("Güneş", p.clean("Güneş."));
+        assertEquals("Güneş", p.clean("!Güneş"));
+        assertEquals("Güneş", p.clean("Güneş"));
     }
 }

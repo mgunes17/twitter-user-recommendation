@@ -42,7 +42,7 @@ public class ParseAlgorithm {
                 parsedTweet = new ParsedTweet();
                 String[] words = plainTweet.getTweet().split(" ");
 
-                //kelime başındaki-sonundaki . , ! ? = " " temizlenecek
+                //kelime başındaki-sonundaki . , ! ? = " " ( ) temizlenecek
                 words = cleanPunctuation(words);
 
                 //parsedTweet.setHashtag(findHashtag(words));
@@ -56,18 +56,18 @@ public class ParseAlgorithm {
                     word = word.toLowerCase();
 
                     if(!word.contains("#") && !word.contains("@") && !word.contains("'")
-                           && word.length() > 3 && !word.contains("rt")){
+                           && word.length() > 3 && !word.equals("rt")){
                         totalWords++;
                         try{
                             //köküne ayır
                             List<WordAnalysis> results = morphology.analyze(word);
 
                             //kelime sözlükte var
-                            if(results.size() > 0 && !results.get(0).getLemma().equals("UNK")) {
+                            if(results.get(0).getLemma().length() > 3) {
                                 countedWords++;
 
                                 if(!wordDAO.isStopWord(word)) {
-                                    tempWords.append(results.get(0).root + "-");
+                                    tempWords.append(results.get(0).getLemma() + "-");
                                 }
                             }
                         } catch(Exception ex){

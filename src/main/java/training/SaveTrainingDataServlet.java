@@ -53,8 +53,8 @@ public class SaveTrainingDataServlet extends HttpServlet {
 
             int value;
             for(String word: tweetWords){
-                word.trim();
-                if(!word.equals("") && wordFrequencyMap.containsKey(word)){
+                word = word.trim();
+                if(wordFrequencyMap.containsKey(word)){
                     value = wordFrequencyMap.get(word);
                     wordFrequencyMap.put(word, ++value);
                 } else {
