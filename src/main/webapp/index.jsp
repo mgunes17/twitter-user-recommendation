@@ -65,13 +65,31 @@
                         </c:when>
                     </c:choose>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <form method="post" action="createtrainingdata">
                         <div class="form-group">
                             <label for="randomCount">Etiketlemek istediğiniz tweet sayısı:</label>
                             <input type="text" name="randomTweetCount" id="randomCount" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-success">Getir</button>
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <h3>Arff Oluştur</h3>
+                    <form method="post" action="createarff">
+                        <div class="form-group">
+                            <label for="name">Dosya Adı:</label>
+                            <input type="text" name="name" id="name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="path">Dosya yolu:</label>
+                            <input type="text" name="path" id="path" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="relation">İlişki Adı:</label>
+                            <input type="text" name="relation" id="relation" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">Oluştur</button>
                     </form>
                 </div>
             </div>

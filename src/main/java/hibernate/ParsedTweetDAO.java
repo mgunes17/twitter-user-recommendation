@@ -20,10 +20,19 @@ public class ParsedTweetDAO extends AbstractDAO {
     }
 
     public List<ParsedTweet> getRandomParsedTweet(int count) {
+        String select = "SELECT * FROM ordered_word_list WHERE category IS NULL ORDER BY RANDOM() LIMIT " + count;
+        return getList(select);
+    }
+
+    public List<ParsedTweet> getLabeledTweet() {
+        String select = "SELECT * FROM ordered_word_list WHERE category IS NOT NULL AND category <> 7";
+       return getList(select);
+    }
+
+    private List<ParsedTweet> getList(String select) {
         session = HibernateConfiguration.getSessionFactory().openSession();
 
         try {
-            String select = "SELECT * FROM ordered_word_list WHERE category IS NULL ORDER BY RANDOM() LIMIT " + count;
             SQLQuery query = session.createSQLQuery(select);
             query.addEntity(ParsedTweet.class);
             List<ParsedTweet> parsedTweetList = query.list();
