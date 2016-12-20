@@ -38,6 +38,15 @@
                         </table>
                     </c:forEach>
                 </div>
+                <div class="col-md-3">
+                    <form method="post" action="createtrainingdata">
+                        <div class="form-group">
+                            <label for="randomCount">Etiketlemek istediğiniz tweet sayısı:</label>
+                            <input type="text" name="randomTweetCount" id="randomCount" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">Getir</button>
+                    </form>
+                </div>
             </div>
         </div>
     </body>

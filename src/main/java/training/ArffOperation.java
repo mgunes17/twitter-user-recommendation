@@ -41,16 +41,27 @@ public class ArffOperation {
             for(ParsedTweet parsedTweet: parsedTweetList) {
                 StringBuilder stringBuilder = new StringBuilder();
                 String[] words = parsedTweet.getOrderedWords().split("-");
-                bw.write("'");
 
-                for(String word: words) {
-                    stringBuilder.append(word + " ");
+
+                if(parsedTweet.getCategory().getId() != 4 && parsedTweet.getCategory().getId() != 6) {
+                    bw.write("'");
+                    for (String word : words) {
+                        if (!word.equals("olmak")
+                                && !word.equals("etmek")
+                                && !word.equals("yeni")
+                                && !word.equals("demek")
+                                && !word.equals("yapmak")
+                                && !word.equals("gelmek")
+                                && !word.equals("gitmek")
+                                && !word.equals("bugün"))
+                            stringBuilder.append(word + " ");
+                    }
+
+                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                    bw.write(stringBuilder.toString());
+                    bw.write("'," + parsedTweet.getCategory().getId());
+                    bw.write("\n");
                 }
-
-                stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-                bw.write(stringBuilder.toString());
-                bw.write("'," + parsedTweet.getCategory().getId());
-                bw.write("\n");
             }
 
             bw.flush();
