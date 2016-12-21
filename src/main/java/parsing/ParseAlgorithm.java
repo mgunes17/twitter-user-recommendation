@@ -1,11 +1,10 @@
 package parsing;
 
-import hibernate.ParsedTweetDAO;
-import hibernate.PlainTweetDAO;
-import hibernate.WordDAO;
-import model.AllWords;
-import model.ParsedTweet;
-import model.PlainTweet;
+import db.hibernate.ParsedTweetDAO;
+import db.hibernate.PlainTweetDAO;
+import db.hibernate.WordDAO;
+import db.model.ParsedTweet;
+import db.model.PlainTweet;
 import zemberek.morphology.analysis.WordAnalysis;
 import zemberek.morphology.analysis.tr.TurkishMorphology;
 

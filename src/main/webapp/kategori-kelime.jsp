@@ -30,7 +30,7 @@
                             <tbody>
                                 <c:forEach var="word" items="${item.wordFrequencies}">
                                     <tr>
-                                        <td>${word.word}</td>
+                                        <td>${word.wordFrequencyPK.word}</td>
                                         <td>${word.count}</td>
                                     </tr>
                                 </c:forEach>

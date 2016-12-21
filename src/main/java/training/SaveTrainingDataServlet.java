@@ -1,13 +1,12 @@
 package training;
 
-import hibernate.CategoryDAO;
-import hibernate.ParsedTweetDAO;
-import hibernate.SentimentDAO;
-import hibernate.WordFrequencyDAO;
-import model.Category;
-import model.ParsedTweet;
-import model.Sentiment;
-import model.WordFrequency;
+import db.hibernate.CategoryDAO;
+import db.hibernate.ParsedTweetDAO;
+import db.hibernate.SentimentDAO;
+import db.hibernate.WordFrequencyDAO;
+import db.model.Category;
+import db.model.ParsedTweet;
+import db.model.Sentiment;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +37,8 @@ public class SaveTrainingDataServlet extends HttpServlet {
         Map<Integer, Sentiment> sentimentMap = sentimentDAO.getSentimentAsMap();
         Map<Integer, Category> categoryMap = categoryDAO.getCategoryAsMap();
 
-        Map<Integer, TrainingData> trainingDataMap = new HashMap<Integer, TrainingData>();
-
-        for(Integer key : categoryMap.keySet()){
-            trainingDataMap.put(key, new TrainingData());
-        }
+        WordFrequencyDAO wordFrequencyDAO = new WordFrequencyDAO();
+        Map<Integer, TrainingData> trainingDataMap = wordFrequencyDAO.setupTrainingData();
 
         int category;
         int sentiment;
@@ -74,7 +69,6 @@ public class SaveTrainingDataServlet extends HttpServlet {
             trainingDataMap.get(category).setWordFrequency(wordFrequencyMap);
         }
 
-        WordFrequencyDAO wordFrequencyDAO = new WordFrequencyDAO();
         wordFrequencyDAO.saveWordMap(trainingDataMap);
 
         ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();

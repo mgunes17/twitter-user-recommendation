@@ -1,12 +1,10 @@
-package hibernate;
+package db.hibernate;
 
 import configuration.HibernateConfiguration;
-import model.PlainTweet;
+import db.model.PlainTweet;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

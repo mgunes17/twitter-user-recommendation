@@ -1,6 +1,6 @@
 package training;
 
-import model.ParsedTweet;
+import db.model.ParsedTweet;
 
 import java.io.BufferedWriter;
 import java.io.File;

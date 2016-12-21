@@ -1,6 +1,6 @@
-package hibernate;
+package db.hibernate;
 
-import model.Category;
+import db.model.Category;
 
 import java.util.HashMap;
 import java.util.List;

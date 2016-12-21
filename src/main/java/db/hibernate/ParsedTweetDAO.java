@@ -1,8 +1,7 @@
-package hibernate;
+package db.hibernate;
 
 import configuration.HibernateConfiguration;
-import model.ParsedTweet;
-import org.hibernate.Query;
+import db.model.ParsedTweet;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
