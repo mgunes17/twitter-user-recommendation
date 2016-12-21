@@ -93,6 +93,18 @@
                     </form>
                 </div>
             </div>
+            <div class="row">
+                <c:out value="${category}"/>
+                <div class="col-md-3">
+                    <form method="post" action="findcategory">
+                        <div class="form-group">
+                            <label for="tweet">Tweet Giriniz</label>
+                            <input type="text" name="tweet" id="tweet" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-default">Kategori Bul</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>
