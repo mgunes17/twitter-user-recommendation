@@ -1,7 +1,10 @@
 package training;
 
+import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.lazy.IBk;
 import weka.classifiers.meta.FilteredClassifier;
+import weka.classifiers.trees.J48;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instance;
@@ -85,15 +88,43 @@ public class LearningModel {
             test.get(0).setDataset(trainingSet);
             double[] result = naiveBayes.distributionForInstance(test.get(0));
 
-            FilteredClassifier classifier = new FilteredClassifier();
-            classifier.buildClassifier(trainingSet);
-            double[] result2 = classifier.distributionForInstance(test.get(0));
-            int a = (int) classifier.classifyInstance(test.get(0));
+            /*FilteredClassifier classifier = new FilteredClassifier();
+            classifier.buildClassifier(trainingSet);*/
 
             String category = findCategory(result);
             return category;
         } catch (Exception e) {
             System.out.println("trainingNaiveBayes " + e.getMessage());
+            e.printStackTrace();
+            return "hata";
+        }
+    }
+
+    public String trainingJ48() {
+        try {
+            J48 tree = new J48();
+            tree.buildClassifier(trainingSet);
+            test.get(0).setDataset(trainingSet);
+            double[] result = tree.distributionForInstance(test.get(0));
+            String category = findCategory(result);
+            return category;
+        } catch (Exception e) {
+            System.out.println("training J48 " + e.getMessage());
+            e.printStackTrace();
+            return "hata";
+        }
+    }
+
+    public String trainingKNN() {
+        try {
+            Classifier knn = new IBk();
+            knn.buildClassifier(trainingSet);
+            test.get(0).setDataset(trainingSet);
+            double[] result = knn.distributionForInstance(test.get(0));
+            String category = findCategory(result);
+            return category;
+        } catch (Exception e) {
+            System.out.println("training KNN " + e.getMessage());
             e.printStackTrace();
             return "hata";
         }

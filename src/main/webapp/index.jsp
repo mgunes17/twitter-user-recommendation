@@ -94,7 +94,9 @@
                 </div>
             </div>
             <div class="row">
-                <c:out value="${category}"/>
+                <c:out value="bayes: ${bayes}"/> <br/>
+                <c:out value="knn: ${knn}"/> <br/>
+                <c:out value="tree: ${tree}"/> <br/>
                 <div class="col-md-3">
                     <form method="post" action="findcategory">
                         <div class="form-group">

@@ -16,10 +16,16 @@ public class FindCategoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String tweet = request.getParameter("tweet");
+
         LearningModel learningModel = new LearningModel(tweet);
-        String category = learningModel.trainingNaiveBayes();
+        String categoryBayes = learningModel.trainingNaiveBayes();
+        String categoryKNN = learningModel.trainingKNN();
+        String categoryTree = learningModel.trainingJ48();
+
         HttpSession session = request.getSession();
-        session.setAttribute("category", category);
+        session.setAttribute("bayes", categoryBayes);
+        session.setAttribute("knn", categoryKNN);
+        session.setAttribute("tree", categoryTree);
         response.sendRedirect("index.jsp");
     }
 
