@@ -1,4 +1,4 @@
-package model;
+package db.model;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -22,7 +22,7 @@ public class Category implements Serializable{
     @Column(name = "title")
     private String title;
 
-    @OneToMany(mappedBy="category", targetEntity=WordFrequency.class,
+    @OneToMany(mappedBy="wordFrequencyPK.category", targetEntity=WordFrequency.class,
             fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<WordFrequency> wordFrequencies = new ArrayList<WordFrequency>();

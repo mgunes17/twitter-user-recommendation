@@ -1,7 +1,6 @@
-package hibernate;
+package db.hibernate;
 
-import model.Category;
-import model.Sentiment;
+import db.model.Sentiment;
 
 import java.util.HashMap;
 import java.util.List;

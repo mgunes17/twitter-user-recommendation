@@ -1,7 +1,7 @@
 package collection;
 
-import hibernate.PlainTweetDAO;
-import model.PlainTweet;
+import db.hibernate.PlainTweetDAO;
+import db.model.PlainTweet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

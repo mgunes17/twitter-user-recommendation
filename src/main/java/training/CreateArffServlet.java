@@ -1,7 +1,7 @@
 package training;
 
-import hibernate.ParsedTweetDAO;
-import model.ParsedTweet;
+import db.hibernate.ParsedTweetDAO;
+import db.model.ParsedTweet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

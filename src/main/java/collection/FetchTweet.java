@@ -1,7 +1,7 @@
 package collection;
 
 import configuration.TwitterConfiguration;
-import model.PlainTweet;
+import db.model.PlainTweet;
 import twitter4j.*;
 
 import java.util.ArrayList;

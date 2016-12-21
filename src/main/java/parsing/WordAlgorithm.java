@@ -1,8 +1,7 @@
 package parsing;
 
-import model.AllWords;
+import db.model.AllWords;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

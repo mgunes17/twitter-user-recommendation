@@ -1,4 +1,4 @@
-package hibernate;
+package db.hibernate;
 
 import configuration.HibernateConfiguration;
 import org.hibernate.Query;

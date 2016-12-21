@@ -1,8 +1,7 @@
-package hibernate;
+package db.hibernate;
 
 import configuration.HibernateConfiguration;
-import model.AllWords;
-import model.ParsedTweet;
+import db.model.AllWords;
 import org.hibernate.Query;
 import org.hibernate.Session;
 

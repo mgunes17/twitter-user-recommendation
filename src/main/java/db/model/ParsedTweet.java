@@ -1,8 +1,7 @@
-package model;
+package db.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by ercan on 17.12.2016.

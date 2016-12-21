@@ -13,12 +13,12 @@
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/user_recommendation</property>
 
         <!-- Mapping sınıfları -->
-        <mapping class="model.PlainTweet"/>
-        <mapping class="model.ParsedTweet"/>
-        <mapping class="model.StopWords"/>
-        <mapping class="model.AllWords"/>
-        <mapping class="model.Category"/>
-        <mapping class="model.Sentiment"/>
-        <mapping class="model.WordFrequency"/>
+        <mapping class="db.model.PlainTweet"/>
+        <mapping class="db.model.ParsedTweet"/>
+        <mapping class="db.model.StopWords"/>
+        <mapping class="db.model.AllWords"/>
+        <mapping class="db.model.Category"/>
+        <mapping class="db.model.Sentiment"/>
+        <mapping class="db.model.WordFrequency"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,12 +1,11 @@
 package training;
 
-import hibernate.CategoryDAO;
-import hibernate.ParsedTweetDAO;
-import hibernate.SentimentDAO;
-import hibernate.WordDAO;
-import model.Category;
-import model.ParsedTweet;
-import model.Sentiment;
+import db.hibernate.CategoryDAO;
+import db.hibernate.ParsedTweetDAO;
+import db.hibernate.SentimentDAO;
+import db.model.Category;
+import db.model.ParsedTweet;
+import db.model.Sentiment;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

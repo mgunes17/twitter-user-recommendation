@@ -1,7 +1,6 @@
 package training;
 
-import model.Category;
-import model.Sentiment;
+import db.model.Category;
 
 import java.util.HashMap;
 import java.util.Map;
