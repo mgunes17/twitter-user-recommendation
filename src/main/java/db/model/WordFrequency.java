@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by mgunes on 18.12.2016.
  */
 @Entity
-@Table(name = "word_frequency25")
+@Table(name = "word_frequency27")
 public class WordFrequency implements Serializable{
 
     @EmbeddedId

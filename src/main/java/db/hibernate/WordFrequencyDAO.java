@@ -90,17 +90,34 @@ public class WordFrequencyDAO extends AbstractDAO {
     }
 
     public int occurenceOnCategory(String word, int id) {
-        String sql = "SELECT count FROM word_frequency WHERE word = '" + word + "' AND category = " + id;
+        String sql = "SELECT count FROM word_frequency27 WHERE word = '" + word + "' AND category = " + id;
         return  findCount(sql);
     }
 
     public int occurenceAllCategory(String word) {
-        String sql = "SELECT sum(count) FROM word_frequency WHERE word = '" + word + "' GROUP BY word";
-        return findCount(sql);
+        String sql = "SELECT sum(count) FROM word_frequency27 WHERE word = '" + word + "' GROUP BY word";
+        try {
+            session = HibernateConfiguration.getSessionFactory().openSession();
+            session.beginTransaction();
+            SQLQuery query = session.createSQLQuery(sql);
+            List list = query.list();
+            session.getTransaction().commit();
+
+            BigInteger b = (BigInteger) list.get(0);
+
+                return b.intValue() + 1;
+        } catch (Exception e) {
+            System.out.println("wordFrequencyDAO:" + e.getMessage());
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return 1;
+        } finally {
+            session.close();
+        }
     }
 
     public int maxOccurenceOnCategory(int id) {
-        String sql = "SELECT max(count) as count FROM word_frequency where category = " + id;
+        String sql = "SELECT max(count) as count FROM word_frequency27 where category = " + id;
         return findCount(sql);
     }
 
@@ -112,9 +129,7 @@ public class WordFrequencyDAO extends AbstractDAO {
             List list = query.list();
             session.getTransaction().commit();
 
-            BigInteger b = (BigInteger) list.get(0);
-
-            return b.intValue() + 1;
+            return (Integer) list.get(0);
         } catch (Exception e) {
             System.out.println("wordFrequencyDAO:" + e.getMessage());
             e.printStackTrace();
