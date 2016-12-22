@@ -97,6 +97,7 @@
                 <c:out value="bayes: ${bayes}"/> <br/>
                 <c:out value="knn: ${knn}"/> <br/>
                 <c:out value="tree: ${tree}"/> <br/>
+                <c:out value="tf*idf:${tfidf}"/><br/>
                 <div class="col-md-3">
                     <form method="post" action="findcategory">
                         <div class="form-group">

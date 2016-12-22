@@ -4,9 +4,11 @@ import configuration.HibernateConfiguration;
 import db.compositekey.WordFrequencyPK;
 import db.model.Category;
 import db.model.WordFrequency;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import training.TrainingData;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,42 @@ public class WordFrequencyDAO extends AbstractDAO {
             session.getTransaction().rollback();
             System.out.println("setupTrainingData: " + ex.getMessage());
             return new HashMap<Integer, TrainingData>();
+        } finally {
+            session.close();
+        }
+    }
+
+    public int occurenceOnCategory(String word, int id) {
+        String sql = "SELECT count FROM word_frequency WHERE word = '" + word + "' AND category = " + id;
+        return  findCount(sql);
+    }
+
+    public int occurenceAllCategory(String word) {
+        String sql = "SELECT sum(count) FROM word_frequency WHERE word = '" + word + "' GROUP BY word";
+        return findCount(sql);
+    }
+
+    public int maxOccurenceOnCategory(int id) {
+        String sql = "SELECT max(count) as count FROM word_frequency where category = " + id;
+        return findCount(sql);
+    }
+
+    private int findCount(String sql) {
+        try {
+            session = HibernateConfiguration.getSessionFactory().openSession();
+            session.beginTransaction();
+            SQLQuery query = session.createSQLQuery(sql);
+            List list = query.list();
+            session.getTransaction().commit();
+
+            BigInteger b = (BigInteger) list.get(0);
+
+            return b.intValue() + 1;
+        } catch (Exception e) {
+            System.out.println("wordFrequencyDAO:" + e.getMessage());
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return 1;
         } finally {
             session.close();
         }

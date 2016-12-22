@@ -20,13 +20,18 @@ public class FindCategoryServlet extends HttpServlet {
 
         LearningModel learningModel = new LearningModel(tweet, path);
         String categoryBayes = learningModel.trainingNaiveBayes();
-        //String categoryKNN = learningModel.trainingKNN();
-        //String categoryTree = learningModel.trainingJ48();
+        String categoryKNN = learningModel.trainingKNN();
+        String categoryTree = learningModel.trainingJ48();
+
+        TfIdf tfIdf = new TfIdf(tweet);
+        String tfidf = tfIdf.findCategory();
 
         HttpSession session = request.getSession();
         session.setAttribute("bayes", categoryBayes);
-        //session.setAttribute("knn", categoryKNN);
-        //session.setAttribute("tree", categoryTree);
+        session.setAttribute("knn", categoryKNN);
+        session.setAttribute("tree", categoryTree);
+        session.setAttribute("tfidf", tfidf);
+
         response.sendRedirect("index.jsp");
     }
 
