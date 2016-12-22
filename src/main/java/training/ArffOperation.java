@@ -1,11 +1,16 @@
 package training;
 
+import db.hibernate.WordFrequencyDAO;
 import db.model.ParsedTweet;
+import db.model.WordFrequency;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -38,40 +43,71 @@ public class ArffOperation {
             bw.write("@DATA");
             bw.write("\n");
 
+            List<String> wordsAsStrings = getSortedWordListAsString();
+            int count = 0;
             for(ParsedTweet parsedTweet: parsedTweetList) {
                 StringBuilder stringBuilder = new StringBuilder();
                 String[] words = parsedTweet.getOrderedWords().split("-");
 
-
                 if(parsedTweet.getCategory().getId() != 4 && parsedTweet.getCategory().getId() != 6) {
-                    bw.write("'");
+                    stringBuilder.append("'");
                     for (String word : words) {
-                        if (!word.equals("olmak")
+                        /*if (!word.equals("olmak")
                                 && !word.equals("etmek")
                                 && !word.equals("yeni")
                                 && !word.equals("demek")
                                 && !word.equals("yapmak")
                                 && !word.equals("gelmek")
                                 && !word.equals("gitmek")
-                                && !word.equals("bugün"))
+                                && !word.equals("bugün"))*/
+                        if(isWordUnique(word, wordsAsStrings)){
+                            count++;
                             stringBuilder.append(word + " ");
+                        }
                     }
-
                     stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-                    bw.write(stringBuilder.toString());
-                    bw.write("'," + parsedTweet.getCategory().getId());
-                    bw.write("\n");
+                    if(stringBuilder.length() != 0) {
+                        bw.write(stringBuilder.toString());
+                        bw.write("'," + parsedTweet.getCategory().getId());
+                        bw.write("\n");
+                    }
                 }
             }
 
             bw.flush();
             bw.close();
-
+            System.out.println(count);
             return true;
         } catch (IOException e) {
             System.out.println("createArff:" + e.getMessage());
             e.printStackTrace();
             return false;
         }
+    }
+
+    private boolean isWordUnique(String word, List<String> wordList){
+        boolean result = false;
+
+        if(wordList.indexOf(word) == wordList.lastIndexOf(word)){
+            result = true;
+        }
+        return result;
+    }
+
+    private List<String> getSortedWordListAsString(){
+        WordFrequencyDAO wordFrequencyDAO = new WordFrequencyDAO();
+        List<WordFrequency> wordFrequencyList = wordFrequencyDAO.getWordFrequencyList();
+        List<String> wordsAsStrings = new ArrayList<String>();
+
+        for(WordFrequency wf : wordFrequencyList){
+            wordsAsStrings.add(wf.getWordFrequencyPK().getWord());
+        }
+
+        Collections.sort(wordsAsStrings, new Comparator<String>() {
+            public int compare(final String str1, final String str2) {
+                return str1.compareTo(str2);
+            }
+        });
+        return wordsAsStrings;
     }
 }
