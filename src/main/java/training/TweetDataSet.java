@@ -18,14 +18,13 @@ public class TweetDataSet {
     public TweetDataSet() {
         text = new Attribute("textAtt", (FastVector) null);
 
-        categoryList = new ArrayList<String>(7);
-        categoryList.add("spor");
-        categoryList.add("siyaset");
-        categoryList.add("sağlık");
+        categoryList = new ArrayList<String>(2);
+        //categoryList.add("spor");
+        //categoryList.add("siyaset");
         categoryList.add("ekonomi");
-        categoryList.add("bilim-teknoloji");
-        categoryList.add("eğlence");
-        categoryList.add("diğer");
+        //categoryList.add("eğlence");
+        categoryList.add("sağlık");
+        //categoryList.add("bilim-teknoloji");
 
         category = new Attribute("categoryAtt", categoryList);
 

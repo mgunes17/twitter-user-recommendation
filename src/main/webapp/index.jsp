@@ -100,6 +100,10 @@
                 <div class="col-md-3">
                     <form method="post" action="findcategory">
                         <div class="form-group">
+                            <label for="arffPath">Arff Dosyası</label>
+                            <input type="text" name="path" id="arffPath" class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label for="tweet">Tweet Giriniz</label>
                             <input type="text" name="tweet" id="tweet" class="form-control">
                         </div>

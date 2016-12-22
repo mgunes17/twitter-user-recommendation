@@ -1,6 +1,7 @@
 package training;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.meta.FilteredClassifier;
@@ -20,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by mgunes on 21.12.2016.
@@ -29,15 +31,14 @@ public class LearningModel {
     private Instances trainingSet;
     private Instances test;
 
-    public LearningModel(String tweet) {
+    public LearningModel(String tweet, String path) {
         tweetDataSet = new TweetDataSet();
-        trainingSet = new Instances("tweets", (ArrayList<Attribute>) tweetDataSet.getFeatures(), 419);
-        trainingSet.setClassIndex(1);
+        trainingSet = new Instances("tweets", (ArrayList<Attribute>) tweetDataSet.getFeatures(), 6);
 
         BufferedReader reader = null;
 
         try {
-            reader = new BufferedReader(new FileReader("/home/mgunes/deneme.arff"));
+            reader = new BufferedReader(new FileReader(path));
             ArffLoader.ArffReader arff = new ArffLoader.ArffReader(reader);
             trainingSet = arff.getData();
             trainingSet.setClassIndex(1);
@@ -59,7 +60,7 @@ public class LearningModel {
             e.printStackTrace();
         }
         try {
-            trainingSet = Filter.useFilter(trainingSet, filter1);
+           // trainingSet = Filter.useFilter(trainingSet, filter1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,13 +84,41 @@ public class LearningModel {
 
     public String trainingNaiveBayes() {
         try {
-            NaiveBayes naiveBayes = new NaiveBayes();
+            /*NaiveBayes naiveBayes = new NaiveBayes();
             naiveBayes.buildClassifier(trainingSet);
             test.get(0).setDataset(trainingSet);
             double[] result = naiveBayes.distributionForInstance(test.get(0));
 
+            Classifier classifier = new FilteredClassifier();
+
+
             /*FilteredClassifier classifier = new FilteredClassifier();
             classifier.buildClassifier(trainingSet);*/
+
+            trainingSet.setClassIndex(1);
+            StringToWordVector filter; filter = new StringToWordVector();
+            filter.setAttributeIndices("first");
+            FilteredClassifier classifier = new FilteredClassifier();
+            classifier.setFilter(filter);
+            classifier.setClassifier(new NaiveBayes());
+            Evaluation eval = new Evaluation(trainingSet);
+            eval.crossValidateModel(classifier, trainingSet, 3, new Random(1));
+            System.out.println(eval.toSummaryString());
+            System.out.println(eval.toClassDetailsString());
+            System.out.println("===== Evaluating on filtered (training) dataset done =====");
+
+            trainingSet.setClassIndex(1);
+            filter = new StringToWordVector();
+            filter.setAttributeIndices("first");
+            filter.setIDFTransform(true);
+            filter.setTFTransform(true);
+            classifier = new FilteredClassifier();
+            classifier.setFilter(filter);
+            classifier.setClassifier(new NaiveBayes());
+            classifier.buildClassifier(trainingSet);
+
+
+            double[] result = classifier.distributionForInstance(test.get(0));
 
             String category = findCategory(result);
             return category;
@@ -106,6 +135,7 @@ public class LearningModel {
             tree.buildClassifier(trainingSet);
             test.get(0).setDataset(trainingSet);
             double[] result = tree.distributionForInstance(test.get(0));
+
             String category = findCategory(result);
             return category;
         } catch (Exception e) {
@@ -134,14 +164,13 @@ public class LearningModel {
         double max = result[0];
         int maxIndex = 0;
 
-        for(int i = 1; i < result.length - 1; i++) {
+        for(int i = 1; i < result.length; i++) {
             if(result[i] > max) {
                 maxIndex = i;
                 max = result[i];
             }
         }
 
-        System.out.println("Max :" + result[maxIndex] + "--" + maxIndex);
         return tweetDataSet.getCategoryList().get(maxIndex).toString();
     }
 }
