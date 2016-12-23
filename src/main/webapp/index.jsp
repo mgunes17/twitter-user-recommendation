@@ -111,6 +111,13 @@
                         <button type="submit" class="btn btn-default">Kategori Bul</button>
                     </form>
                 </div>
+                <div class="col-md-2">
+                    <c:out value="Başarı Oranı:${tfidfsuccessrate}"/> <br/>
+                    <form method="post" action="testtfidf">
+                        <label for="testtfidf">TF-IDF Test Et</label>
+                        <button type="submit" class="btn btn-default" id="testtfidf">Test Et</button>
+                    </form>
+                </div>
             </div>
         </div>
     </body>

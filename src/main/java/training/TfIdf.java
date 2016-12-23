@@ -9,12 +9,22 @@ public class TfIdf {
     private String tweet;
     private WordFrequencyDAO wordFrequencyDAO;
 
+    public TfIdf() {
+        super();
+        wordFrequencyDAO = new WordFrequencyDAO();
+    }
+
     public TfIdf(String tweet) {
         this.tweet = tweet;
         wordFrequencyDAO = new WordFrequencyDAO();
     }
 
     public String findCategory() {
+        int id = findCategoryID();
+        return categoryName(id);
+    }
+
+    public int findCategoryID() {
         String[] words = tweet.split(" ");
         Double[] values = new Double[8];
 
@@ -30,7 +40,7 @@ public class TfIdf {
 
         int id = findMax(values);
 
-        return categoryName(id);
+        return id;
     }
 
     private double computeTfIdf(String word, int id) {
@@ -66,5 +76,13 @@ public class TfIdf {
         }
 
         return index;
+    }
+
+    public String getTweet() {
+        return tweet;
+    }
+
+    public void setTweet(String tweet) {
+        this.tweet = tweet;
     }
 }

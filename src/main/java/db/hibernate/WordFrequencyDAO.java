@@ -103,9 +103,12 @@ public class WordFrequencyDAO extends AbstractDAO {
             List list = query.list();
             session.getTransaction().commit();
 
-            BigInteger b = (BigInteger) list.get(0);
-
+            if(list.size() > 0) {
+                BigInteger b = (BigInteger) list.get(0);
                 return b.intValue() + 1;
+            } else {
+                return 1;
+            }
         } catch (Exception e) {
             System.out.println("wordFrequencyDAO:" + e.getMessage());
             e.printStackTrace();
@@ -129,7 +132,10 @@ public class WordFrequencyDAO extends AbstractDAO {
             List list = query.list();
             session.getTransaction().commit();
 
-            return (Integer) list.get(0);
+            if(list.size() > 0)
+                return (Integer) list.get(0);
+            else
+                return 1;
         } catch (Exception e) {
             System.out.println("wordFrequencyDAO:" + e.getMessage());
             e.printStackTrace();
