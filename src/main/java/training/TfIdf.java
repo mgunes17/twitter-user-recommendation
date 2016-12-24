@@ -1,22 +1,22 @@
 package training;
 
-import db.hibernate.WordFrequencyDAO;
+import db.hibernate.WordCategoryFrequencyDAO;
 
 /**
  * Created by mgunes on 22.12.2016.
  */
 public class TfIdf {
     private String tweet;
-    private WordFrequencyDAO wordFrequencyDAO;
+    private WordCategoryFrequencyDAO wordCategoryFrequencyDAO;
 
     public TfIdf() {
         super();
-        wordFrequencyDAO = new WordFrequencyDAO();
+        wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
     }
 
     public TfIdf(String tweet) {
         this.tweet = tweet;
-        wordFrequencyDAO = new WordFrequencyDAO();
+        wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
     }
 
     public String findCategory() {
@@ -44,8 +44,8 @@ public class TfIdf {
     }
 
     private double computeTfIdf(String word, int id) {
-        double idf = (double) wordFrequencyDAO.occurenceOnCategory(word, id) / wordFrequencyDAO.occurenceAllCategory(word);
-        double tf = (double) wordFrequencyDAO.occurenceOnCategory(word, id) / wordFrequencyDAO.maxOccurenceOnCategory(id);
+        double idf = (double) wordCategoryFrequencyDAO.occurenceOnCategory(word, id) / wordCategoryFrequencyDAO.occurenceAllCategory(word);
+        double tf = (double) wordCategoryFrequencyDAO.occurenceOnCategory(word, id) / wordCategoryFrequencyDAO.maxOccurenceOnCategory(id);
 
         return tf * idf;
     }
@@ -103,8 +103,8 @@ public class TfIdf {
     }
 
     private double computeTfIdfForSentiment(String word, int id) {
-        double idf = (double) wordFrequencyDAO.occurenceOnSentiment(word, id) / wordFrequencyDAO.occurenceAllCategory(word);
-        double tf = (double) wordFrequencyDAO.occurenceOnSentiment(word, id) / wordFrequencyDAO.maxOccurenceOnSentiment(id);
+        double idf = (double) wordCategoryFrequencyDAO.occurenceOnSentiment(word, id) / wordCategoryFrequencyDAO.occurenceAllCategory(word);
+        double tf = (double) wordCategoryFrequencyDAO.occurenceOnSentiment(word, id) / wordCategoryFrequencyDAO.maxOccurenceOnSentiment(id);
 
         return tf * idf;
     }

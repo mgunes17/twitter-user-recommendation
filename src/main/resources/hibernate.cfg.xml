@@ -19,6 +19,6 @@
         <mapping class="db.model.AllWords"/>
         <mapping class="db.model.Category"/>
         <mapping class="db.model.Sentiment"/>
-        <mapping class="db.model.WordFrequency"/>
+        <mapping class="db.model.WordCategoryFrequency"/>
     </session-factory>
 </hibernate-configuration>

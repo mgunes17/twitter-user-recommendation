@@ -3,7 +3,7 @@ package training;
 import db.hibernate.CategoryDAO;
 import db.hibernate.ParsedTweetDAO;
 import db.hibernate.SentimentDAO;
-import db.hibernate.WordFrequencyDAO;
+import db.hibernate.WordCategoryFrequencyDAO;
 import db.model.Category;
 import db.model.ParsedTweet;
 import db.model.Sentiment;
@@ -37,8 +37,8 @@ public class SaveTrainingDataServlet extends HttpServlet {
         Map<Integer, Sentiment> sentimentMap = sentimentDAO.getSentimentAsMap();
         Map<Integer, Category> categoryMap = categoryDAO.getCategoryAsMap();
 
-        WordFrequencyDAO wordFrequencyDAO = new WordFrequencyDAO();
-        Map<Integer, TrainingData> trainingDataMap = wordFrequencyDAO.setupTrainingData();
+        WordCategoryFrequencyDAO wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
+        Map<Integer, TrainingData> trainingDataMap = wordCategoryFrequencyDAO.setupTrainingData();
 
         int category;
         int sentiment;
@@ -65,11 +65,12 @@ public class SaveTrainingDataServlet extends HttpServlet {
                     wordFrequencyMap.put(word, 1);
                 }
             }
+            //duygu için de ayrı sınıf yarat ve oradan kaydet
             trainingDataMap.get(category).setCategory(categoryMap.get(category));
             trainingDataMap.get(category).setWordFrequency(wordFrequencyMap);
         }
 
-        wordFrequencyDAO.saveWordMap(trainingDataMap);
+        wordCategoryFrequencyDAO.saveWordMap(trainingDataMap);
 
         ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
         parsedTweetDAO.saveParsedList(tweetList);

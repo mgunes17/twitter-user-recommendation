@@ -126,9 +126,9 @@
                     </form>
                 </div>
                 <div class="col-md-2">
-                    <c:out value="Kategori: ${category}"/> <br/>
+                    <c:out value="Kategori: ${tfidf}"/> <br/>
                     <c:out value="Duygu: ${sentiment}"/>
-                    <form method="post" action="findsentiment">
+                    <form method="post" action="findcategory">
                         <div class="form-group">
                             <label for="sentimentTweet">Tweet Gir</label>
                             <input type="text" id="sentimentTweet" class="form-control" name="tweet"/>

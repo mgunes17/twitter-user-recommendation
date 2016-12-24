@@ -25,12 +25,14 @@ public class FindCategoryServlet extends HttpServlet {
 
         TfIdf tfIdf = new TfIdf(tweet);
         String tfidf = tfIdf.findCategory();
+        String sentiment = tfIdf.findSentiment();
 
         HttpSession session = request.getSession();
         session.setAttribute("bayes", categoryBayes);
         session.setAttribute("knn", categoryKNN);
         session.setAttribute("tree", categoryTree);
         session.setAttribute("tfidf", tfidf);
+        session.setAttribute("sentiment", sentiment);
 
         response.sendRedirect("index.jsp");
     }
