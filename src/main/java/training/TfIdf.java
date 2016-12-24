@@ -58,7 +58,7 @@ public class TfIdf {
             case 4 : return  "eğlence" ;
             case 5 : return  "sağlık" ;
             case 6 : return  "bilim-teknoloji" ;
-            case 7 : return  "diğer" ;
+            //case 7 : return  "diğer" ;
         }
 
         return "null";
