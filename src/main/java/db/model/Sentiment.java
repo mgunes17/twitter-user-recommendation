@@ -24,6 +24,11 @@ public class Sentiment implements Serializable {
         super();
     }
 
+    public Sentiment(int id) {
+        super();
+        this.id = id;
+    }
+
     //getter-setter
     public int getId() {
         return id;

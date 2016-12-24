@@ -120,11 +120,39 @@
                 </div>
                 <div class="col-md-2">
                     <c:out value="Etiketlenen tweet sayısı:${countLabeledTweet}"/>
-                    <form method="post" action="labelall">
-                        <label for="b1">TF-IDF ile etiketsiz tweetleri etiketle</label>
-                        <button type="submit" class="btn btn-default" id="b1">Etiketle</button>
+                    <form method="post" action="labelallcategory">
+                        <label for="b11">(KATEGORİ) TF-IDF ile etiketsiz tweetleri etiketle</label>
+                        <button type="submit" class="btn btn-default" id="b11">Etiketle</button>
                     </form>
                 </div>
+                <div class="col-md-2">
+                    <c:out value="Kategori: ${category}"/> <br/>
+                    <c:out value="Duygu: ${sentiment}"/>
+                    <form method="post" action="findsentiment">
+                        <div class="form-group">
+                            <label for="sentimentTweet">Tweet Gir</label>
+                            <input type="text" id="sentimentTweet" class="form-control" name="tweet"/>
+                        </div>
+                        <button type="submit" class="btn btn-default">Duygu Bul</button>
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <c:out value="Etiketlenen tweet sayısı:${countLabeledTweet}"/>
+                    <form method="post" action="labelallsentiment">
+                        <label for="b12">(DUYGU)TF-IDF ile etiketsiz tweetleri etiketle</label>
+                        <button type="submit" class="btn btn-default" id="b12">Etiketle</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <h4>Kategori ve Duygu Etiketle</h4>
+                <form method="post" action="labelcount">
+                    <div class="form-group">
+                        <label for="in">Etiketlenecek tweet sayısı:</label>
+                        <input type="text" class="form-control" name="count" id="in">
+                    </div>
+                    <button type="submit" class="btn btn-default">Etiketle</button>
+                </form>
             </div>
         </div>
     </body>

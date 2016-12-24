@@ -26,14 +26,14 @@ public class TfIdf {
 
     public int findCategoryID() {
         String[] words = tweet.split(" ");
-        Double[] values = new Double[8];
+        Double[] values = new Double[7];
 
-        for(int i = 1; i < 8; i++){
+        for(int i = 1; i < 7; i++){
             values[i] = 0.0;
         }
 
         for(String word: words) {
-            for(int i = 1; i < 8; i++) {
+            for(int i = 1; i < 7; i++) {
                 values[i] += computeTfIdf(word, i);
             }
         }
@@ -58,7 +58,7 @@ public class TfIdf {
             case 4 : return  "eğlence" ;
             case 5 : return  "sağlık" ;
             case 6 : return  "bilim-teknoloji" ;
-            case 7 : return  "diğer" ;
+            //case 7 : return  "diğer" ;
         }
 
         return "null";
@@ -76,6 +76,47 @@ public class TfIdf {
         }
 
         return index;
+    }
+
+    public String findSentiment() {
+        int id = findSentimentID();
+        return sentimentName(id);
+    }
+
+    public int findSentimentID() {
+        String[] words = tweet.split(" ");
+        Double[] values = new Double[4];
+
+        for(int i = 1; i < 4; i++){
+            values[i] = 0.0;
+        }
+
+        for(String word: words) {
+            for(int i = 1; i < 4; i++) {
+                values[i] += computeTfIdfForSentiment(word, i);
+            }
+        }
+
+        int id = findMax(values);
+
+        return id;
+    }
+
+    private double computeTfIdfForSentiment(String word, int id) {
+        double idf = (double) wordFrequencyDAO.occurenceOnSentiment(word, id) / wordFrequencyDAO.occurenceAllCategory(word);
+        double tf = (double) wordFrequencyDAO.occurenceOnSentiment(word, id) / wordFrequencyDAO.maxOccurenceOnSentiment(id);
+
+        return tf * idf;
+    }
+
+    private String sentimentName(int id) {
+        switch (id) {
+            case 1 : return  "olumlu" ;
+            case 2 : return  "olumsuz" ;
+            case 3 : return  "nötr" ;
+        }
+
+        return "null";
     }
 
     public String getTweet() {
