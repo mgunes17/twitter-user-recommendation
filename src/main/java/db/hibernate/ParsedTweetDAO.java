@@ -7,10 +7,6 @@ import org.hibernate.Session;
 
 import java.util.List;
 
-/**
- * Created by mgunes on 17.12.2016.
- */
-
 public class ParsedTweetDAO extends AbstractDAO {
     private Session session;
 
@@ -32,6 +28,13 @@ public class ParsedTweetDAO extends AbstractDAO {
         String select = "SELECT * FROM ordered_word_list WHERE category IS NULL";
         return getList(select);
     }
+
+    public List<ParsedTweet> getTweetsWithLabeledSentiment() {
+        String select = "SELECT * FROM ordered_word_list WHERE sentiment IS NOT NULL";
+        return getList(select);
+    }
+
+
 
     public boolean updateParsedList(List<ParsedTweet> parsedTweets) {
         return saveList(parsedTweets);
