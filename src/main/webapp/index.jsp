@@ -118,6 +118,13 @@
                         <button type="submit" class="btn btn-default" id="testtfidf">Test Et</button>
                     </form>
                 </div>
+                <div class="col-md-2">
+                    <c:out value="Etiketlenen tweet sayısı:${countLabeledTweet}"/>
+                    <form method="post" action="labelall">
+                        <label for="b1">TF-IDF ile etiketsiz tweetleri etiketle</label>
+                        <button type="submit" class="btn btn-default" id="b1">Etiketle</button>
+                    </form>
+                </div>
             </div>
         </div>
     </body>

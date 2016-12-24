@@ -28,6 +28,15 @@ public class ParsedTweetDAO extends AbstractDAO {
        return getList(select);
     }
 
+    public List<ParsedTweet> getNotLabeled() {
+        String select = "SELECT * FROM ordered_word_list WHERE category IS NULL";
+        return getList(select);
+    }
+
+    public boolean updateParsedList(List<ParsedTweet> parsedTweets) {
+        return saveList(parsedTweets);
+    }
+
     private List<ParsedTweet> getList(String select) {
         session = HibernateConfiguration.getSessionFactory().openSession();
 

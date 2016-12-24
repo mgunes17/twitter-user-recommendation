@@ -27,6 +27,15 @@ public class Category implements Serializable{
     @Fetch(value = FetchMode.SUBSELECT)
     private List<WordFrequency> wordFrequencies = new ArrayList<WordFrequency>();
 
+    public Category() {
+        super();
+    }
+
+    public Category(int id) {
+        this.id = id;
+    }
+
+    //getter-setter
     public int getId() {
         return id;
     }
