@@ -124,6 +124,16 @@ public class WordFrequencyDAO extends AbstractDAO {
         return findCount(sql);
     }
 
+    public int maxOccurenceOnSentiment(int id) {
+        String sql = "SELECT max(count) as count FROM word_frequency27 where sentiment = " + id;
+        return findCount(sql);
+    }
+
+    public int occurenceOnSentiment(String word, int id) {
+        String sql = "SELECT count FROM word_frequency27 WHERE word = '" + word + "' AND sentiment = " + id;
+        return  findCount(sql);
+    }
+
     private int findCount(String sql) {
         try {
             session = HibernateConfiguration.getSessionFactory().openSession();
