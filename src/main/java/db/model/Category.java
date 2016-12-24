@@ -22,7 +22,7 @@ public class Category implements Serializable{
     @Column(name = "title")
     private String title;
 
-    @OneToMany(mappedBy="wordFrequencyPK.category", targetEntity=WordCategoryFrequency.class,
+    @OneToMany(mappedBy="wordCategoryFrequencyPK.category", targetEntity=WordCategoryFrequency.class,
             fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<WordCategoryFrequency> wordFrequencies = new ArrayList<WordCategoryFrequency>();

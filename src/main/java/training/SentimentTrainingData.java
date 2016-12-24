@@ -1,28 +1,24 @@
 package training;
 
-import db.model.Category;
+import db.model.Sentiment;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by ercan on 18.12.2016.
- */
-
-public class TrainingData {
-    private Category category;
+public class SentimentTrainingData {
+    private Sentiment sentiment;
     private Map<String, Integer> wordFrequency;
 
-    public TrainingData(){
+    public SentimentTrainingData(){
         wordFrequency = new HashMap<String, Integer>();
     }
 
-    public Category getCategory() {
-        return category;
+    public Sentiment getSentiment() {
+        return sentiment;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setSentiment(Sentiment sentiment) {
+        this.sentiment = sentiment;
     }
 
     public Map<String, Integer> getWordFrequency() {

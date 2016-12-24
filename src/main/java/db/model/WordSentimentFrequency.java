@@ -1,14 +1,10 @@
 package db.model;
 
-import db.compositekey.WordCategoryFrequencyPK;
 import db.compositekey.WordSentimentFrequencyPK;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by mgunes on 18.12.2016.
- */
 @Entity
 @Table(name = "word_sentiment_frequency")
 public class WordSentimentFrequency implements Serializable{

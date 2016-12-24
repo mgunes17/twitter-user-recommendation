@@ -1,22 +1,23 @@
 package training;
 
 import db.hibernate.WordCategoryFrequencyDAO;
+import db.hibernate.WordSentimentFrequencyDAO;
 
-/**
- * Created by mgunes on 22.12.2016.
- */
 public class TfIdf {
     private String tweet;
     private WordCategoryFrequencyDAO wordCategoryFrequencyDAO;
+    private WordSentimentFrequencyDAO wordSentimentFrequencyDAO;
 
     public TfIdf() {
         super();
         wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
+        wordSentimentFrequencyDAO = new WordSentimentFrequencyDAO();
     }
 
     public TfIdf(String tweet) {
         this.tweet = tweet;
         wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
+        wordSentimentFrequencyDAO = new WordSentimentFrequencyDAO();
     }
 
     public String findCategory() {
@@ -103,8 +104,8 @@ public class TfIdf {
     }
 
     private double computeTfIdfForSentiment(String word, int id) {
-        double idf = (double) wordCategoryFrequencyDAO.occurenceOnSentiment(word, id) / wordCategoryFrequencyDAO.occurenceAllCategory(word);
-        double tf = (double) wordCategoryFrequencyDAO.occurenceOnSentiment(word, id) / wordCategoryFrequencyDAO.maxOccurenceOnSentiment(id);
+        double idf = (double) wordSentimentFrequencyDAO.occurenceOnSentiment(word, id) / wordSentimentFrequencyDAO.occurenceOnAllSentiment(word);
+        double tf = (double) wordSentimentFrequencyDAO.occurenceOnSentiment(word, id) / wordSentimentFrequencyDAO.maxOccurenceOnSentiment(id);
 
         return tf * idf;
     }
