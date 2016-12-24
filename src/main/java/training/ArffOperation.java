@@ -100,7 +100,7 @@ public class ArffOperation {
         List<String> wordsAsStrings = new ArrayList<String>();
 
         for(WordCategoryFrequency wf : wordCategoryFrequencyList){
-            wordsAsStrings.add(wf.getWordFrequencyPK().getWord());
+            wordsAsStrings.add(wf.getWordCategoryFrequencyPK().getWord());
         }
 
         Collections.sort(wordsAsStrings, new Comparator<String>() {
