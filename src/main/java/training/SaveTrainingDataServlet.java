@@ -90,6 +90,31 @@ public class SaveTrainingDataServlet extends HttpServlet {
         session.setAttribute("categoryList", categoryList);
 
         response.sendRedirect("kategori-kelime.jsp");
+        /*ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
+        List<ParsedTweet> parsedTweets = parsedTweetDAO.getTweetsWithLabeledSentiment();
+
+        int sentiment;
+        for(ParsedTweet pt: parsedTweets){
+            sentiment = pt.getSentiment().getId();
+
+            String [] tweetWords = pt.getOrderedWords().split("-");
+            Map<String, Integer> wordFrequencyMapForSentiment = sentimentTrainingDataMap.get(sentiment).getWordFrequency();
+
+            int value;
+            for(String word: tweetWords){
+                word = word.trim();
+                if(wordFrequencyMapForSentiment.containsKey(word)){
+                    value = wordFrequencyMapForSentiment.get(word);
+                    wordFrequencyMapForSentiment.put(word, ++value);
+                } else {
+                    wordFrequencyMapForSentiment.put(word, 1);
+                }
+            }
+            sentimentTrainingDataMap.get(sentiment).setSentiment(sentimentMap.get(sentiment));
+            sentimentTrainingDataMap.get(sentiment).setWordFrequency(wordFrequencyMapForSentiment);
+        }
+
+        wordSentimentFrequencyDAO.saveWordMap(sentimentTrainingDataMap);*/
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
