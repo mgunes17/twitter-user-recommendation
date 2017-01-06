@@ -27,14 +27,14 @@ public class TfIdf {
 
     public int findCategoryID() {
         String[] words = tweet.split(" ");
-        Double[] values = new Double[7];
+        Double[] values = new Double[8];
 
-        for(int i = 1; i < 7; i++){
+        for(int i = 1; i < 8; i++){
             values[i] = 0.0;
         }
 
         for(String word: words) {
-            for(int i = 1; i < 7; i++) {
+            for(int i = 1; i < 8; i++) {
                 values[i] += computeTfIdf(word, i);
             }
         }
@@ -59,7 +59,7 @@ public class TfIdf {
             case 4 : return  "eğlence" ;
             case 5 : return  "sağlık" ;
             case 6 : return  "bilim-teknoloji" ;
-            //case 7 : return  "diğer" ;
+            case 7 : return  "diğer" ;
         }
 
         return "null";

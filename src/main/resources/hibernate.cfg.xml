@@ -21,5 +21,6 @@
         <mapping class="db.model.Sentiment"/>
         <mapping class="db.model.WordCategoryFrequency"/>
         <mapping class="db.model.WordSentimentFrequency"/>
+        <mapping class="db.model.AccountAnalyze"/>
     </session-factory>
 </hibernate-configuration>
