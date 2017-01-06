@@ -3,6 +3,8 @@ package analyze;
 import collection.FetchTweet;
 import db.compositekey.AccountAnalyzePK;
 import db.hibernate.AccountAnalyzeDAO;
+import db.hibernate.AccountWordAnalyzeDAO;
+import db.hibernate.CategoryDAO;
 import db.model.AccountAnalyze;
 import db.model.Category;
 import db.model.ParsedTweet;
@@ -18,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mgunes on 06.01.2017.
@@ -42,10 +46,43 @@ public class AccountAnalyzeServlet extends HttpServlet {
             categoryWeight[i] = 0;
         }
 
+        // <word, Map<Category, Count>> sentiment - ise count-- , sentiment + ise count++
+        Map<String, HashMap<Category, Integer>> map = new HashMap<String, HashMap<Category, Integer>>();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        Map<Integer, Category> categoryMap = categoryDAO.getCategoryAsMap();
+
+        int value;
+        int sentiment;
+        int category;
         for (ParsedTweet p : parsedTweets) {
+            String [] tweetWords = p.getOrderedWords().split("-");
+
             tfIdf.setTweet(p.getOrderedWords().replaceAll("-", " "));
-            categoryWeight[tfIdf.findCategoryID()]++;
+            category = tfIdf.findCategoryID();
+            sentiment = tfIdf.findSentimentID();
+            categoryWeight[category]++;
+
+            for(String s:tweetWords){
+                if(!map.containsKey(s)) {
+                    map.put(s, new HashMap<Category, Integer>());
+                }
+
+                if(map.get(s).containsKey(categoryMap.get(category))){
+                    value = map.get(s).get(categoryMap.get(category));
+                } else {
+                    value = 0;
+                }
+
+                if(sentiment == 1){
+                    value += 1;
+                } else if(sentiment == 2) {
+                    value -= 1;
+                }
+                map.get(s).put(categoryMap.get(category), value);
+            }
         }
+        AccountWordAnalyzeDAO accountWordAnalyzeDAO = new AccountWordAnalyzeDAO();
+        accountWordAnalyzeDAO.saveMap(map, username);
 
         List<AccountAnalyze> accountAnalyzes = new ArrayList<AccountAnalyze>();
 
@@ -57,6 +94,7 @@ public class AccountAnalyzeServlet extends HttpServlet {
             pk.setUserName(username);
             accountAnalyze.setPk(pk);
             accountAnalyze.setWeight(categoryWeight[i] * 100 / plainTweetList.size());
+            accountAnalyzes.add(accountAnalyze);
         }
 
         AccountAnalyzeDAO accountAnalyzeDAO = new AccountAnalyzeDAO();
@@ -69,7 +107,7 @@ public class AccountAnalyzeServlet extends HttpServlet {
         */
 
         HttpSession session = request.getSession();
-        response.sendRedirect("hesap-analizi.jsp");
+        response.sendRedirect("hesap-analiz.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
