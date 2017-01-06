@@ -57,3 +57,11 @@ CREATE TABLE account_analyze (
 	weight int NOT NULL,
 	primary key(user_name, category)
 );
+
+CREATE TABLE account_word_analyze (
+	user_name varchar(100),
+	category int REFERENCES category(id),
+	word varchar(100),
+	sentiment int REFERENCES sentiment(id),
+	primary key(user_name, category, word)
+);

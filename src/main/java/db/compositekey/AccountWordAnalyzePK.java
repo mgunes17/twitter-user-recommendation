@@ -1,6 +1,7 @@
 package db.compositekey;
 
 import db.model.Category;
+import db.model.Sentiment;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,24 +9,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
-/**
- * Created by mgunes on 06.01.2017.
- */
 @Embeddable
-public class AccountAnalyzePK implements Serializable{
+public class AccountWordAnalyzePK implements Serializable{
+    @Column(name = "user_name")
+    private String userName;
+
     @ManyToOne
     @JoinColumn(name = "category")
     private Category category;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "word")
+    private String word;
 
-    public Category getCategory() {
-        return category;
+
+    public String getWord() {
+        return word;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setWord(String word) {
+        this.word = word;
     }
 
     public String getUserName() {
@@ -35,4 +37,13 @@ public class AccountAnalyzePK implements Serializable{
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
 }

@@ -21,7 +21,7 @@ public class HibernateConfiguration {
             Properties prop = new Properties();
             String propFileName = "hibernate.properties";
 
-            InputStream inputStream = new TwitterConfiguration().getClass().getClassLoader().getResourceAsStream(propFileName);
+            InputStream inputStream = new HibernateConfiguration().getClass().getClassLoader().getResourceAsStream(propFileName);
             prop.load(inputStream);
 
             Configuration c = new Configuration();
