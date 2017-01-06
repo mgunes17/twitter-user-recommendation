@@ -17,7 +17,6 @@ import java.util.List;
  */
 
 public class ParseAlgorithm {
-    private List<PlainTweet> plainTweets;
     private List<ParsedTweet> parsedTweets;
 
     public ParseAlgorithm() {
@@ -25,9 +24,20 @@ public class ParseAlgorithm {
     }
 
     public int parseNewTweets() {
-        TurkishMorphology morphology = null;
         PlainTweetDAO plainTweetDAO = new PlainTweetDAO();
-        plainTweets = plainTweetDAO.getRawTweets();
+        List<PlainTweet> plainTweets = plainTweetDAO.getRawTweets();
+        int count =  parsePlainTweets(plainTweets);
+        saveParsedTweets();
+        return count;
+    }
+
+    private void saveParsedTweets() {
+        ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
+        parsedTweetDAO.saveParsedList(parsedTweets);
+    }
+
+    public int parsePlainTweets(List<PlainTweet> plainTweets) {
+        TurkishMorphology morphology = null;
         ParsedTweet parsedTweet ;
         WordDAO wordDAO = new WordDAO();
         int count = 0;
@@ -55,7 +65,7 @@ public class ParseAlgorithm {
                     word = word.toLowerCase();
 
                     if(!word.contains("#") && !word.contains("@") && !word.contains("'")
-                           && word.length() > 3 && !word.equals("rt")){
+                            && word.length() > 3 && !word.equals("rt")){
                         totalWords++;
                         try{
                             //köküne ayır
@@ -86,9 +96,6 @@ public class ParseAlgorithm {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
-        parsedTweetDAO.saveParsedList(parsedTweets);
 
         return count;
     }
@@ -145,5 +152,13 @@ public class ParseAlgorithm {
         } else {
             return s;
         }
+    }
+
+    public List<ParsedTweet> getParsedTweets() {
+        return parsedTweets;
+    }
+
+    public void setParsedTweets(List<ParsedTweet> parsedTweets) {
+        this.parsedTweets = parsedTweets;
     }
 }

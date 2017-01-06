@@ -50,3 +50,10 @@ CREATE TABLE word_sentiment_frequency(
 	word varchar(100),
 	count int
 );
+
+CREATE TABLE account_analyze (
+	user_name varchar(100),
+	category int REFERENCES category(id),
+	weight int NOT NULL,
+	primary key(user_name, category)
+);
