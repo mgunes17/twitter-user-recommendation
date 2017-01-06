@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Created by ercan on 21.12.2016.
  */
 @Embeddable
-public class WordFrequencyPK implements Serializable{
+public class WordCategoryFrequencyPK implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "category")

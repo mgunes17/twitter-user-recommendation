@@ -1,9 +1,6 @@
 package training;
 
-import db.hibernate.CategoryDAO;
-import db.hibernate.ParsedTweetDAO;
-import db.hibernate.SentimentDAO;
-import db.hibernate.WordFrequencyDAO;
+import db.hibernate.*;
 import db.model.Category;
 import db.model.ParsedTweet;
 import db.model.Sentiment;
@@ -37,8 +34,11 @@ public class SaveTrainingDataServlet extends HttpServlet {
         Map<Integer, Sentiment> sentimentMap = sentimentDAO.getSentimentAsMap();
         Map<Integer, Category> categoryMap = categoryDAO.getCategoryAsMap();
 
-        WordFrequencyDAO wordFrequencyDAO = new WordFrequencyDAO();
-        Map<Integer, TrainingData> trainingDataMap = wordFrequencyDAO.setupTrainingData();
+        WordCategoryFrequencyDAO wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
+        Map<Integer, CategoryTrainingData> categoryTrainingDataMap = wordCategoryFrequencyDAO.setupCategoryTrainingData();
+
+        WordSentimentFrequencyDAO wordSentimentFrequencyDAO = new WordSentimentFrequencyDAO();
+        Map<Integer, SentimentTrainingData> sentimentTrainingDataMap = wordSentimentFrequencyDAO.setupSentimentTrainingData();
 
         int category;
         int sentiment;
@@ -53,23 +53,35 @@ public class SaveTrainingDataServlet extends HttpServlet {
 
             String [] tweetWords = categoryData[0].split("-");
 
-            Map<String, Integer> wordFrequencyMap = trainingDataMap.get(category).getWordFrequency();
+            Map<String, Integer> wordFrequencyMapForCategory = categoryTrainingDataMap.get(category).getWordFrequency();
+            Map<String, Integer> wordFrequencyMapForSentiment = sentimentTrainingDataMap.get(sentiment).getWordFrequency();
 
             int value;
             for(String word: tweetWords){
                 word = word.trim();
-                if(wordFrequencyMap.containsKey(word)){
-                    value = wordFrequencyMap.get(word);
-                    wordFrequencyMap.put(word, ++value);
+                if(wordFrequencyMapForCategory.containsKey(word)){
+                    value = wordFrequencyMapForCategory.get(word);
+                    wordFrequencyMapForCategory.put(word, ++value);
                 } else {
-                    wordFrequencyMap.put(word, 1);
+                    wordFrequencyMapForCategory.put(word, 1);
+                }
+
+                if(wordFrequencyMapForSentiment.containsKey(word)){
+                    value = wordFrequencyMapForSentiment.get(word);
+                    wordFrequencyMapForSentiment.put(word, ++value);
+                } else {
+                    wordFrequencyMapForSentiment.put(word, 1);
                 }
             }
-            trainingDataMap.get(category).setCategory(categoryMap.get(category));
-            trainingDataMap.get(category).setWordFrequency(wordFrequencyMap);
+            sentimentTrainingDataMap.get(sentiment).setSentiment(sentimentMap.get(sentiment));
+            sentimentTrainingDataMap.get(sentiment).setWordFrequency(wordFrequencyMapForSentiment);
+
+            categoryTrainingDataMap.get(category).setCategory(categoryMap.get(category));
+            categoryTrainingDataMap.get(category).setWordFrequency(wordFrequencyMapForCategory);
         }
 
-        wordFrequencyDAO.saveWordMap(trainingDataMap);
+        wordCategoryFrequencyDAO.saveWordMap(categoryTrainingDataMap);
+        wordSentimentFrequencyDAO.saveWordMap(sentimentTrainingDataMap);
 
         ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
         parsedTweetDAO.saveParsedList(tweetList);
@@ -78,6 +90,31 @@ public class SaveTrainingDataServlet extends HttpServlet {
         session.setAttribute("categoryList", categoryList);
 
         response.sendRedirect("kategori-kelime.jsp");
+        /*ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
+        List<ParsedTweet> parsedTweets = parsedTweetDAO.getTweetsWithLabeledSentiment();
+
+        int sentiment;
+        for(ParsedTweet pt: parsedTweets){
+            sentiment = pt.getSentiment().getId();
+
+            String [] tweetWords = pt.getOrderedWords().split("-");
+            Map<String, Integer> wordFrequencyMapForSentiment = sentimentTrainingDataMap.get(sentiment).getWordFrequency();
+
+            int value;
+            for(String word: tweetWords){
+                word = word.trim();
+                if(wordFrequencyMapForSentiment.containsKey(word)){
+                    value = wordFrequencyMapForSentiment.get(word);
+                    wordFrequencyMapForSentiment.put(word, ++value);
+                } else {
+                    wordFrequencyMapForSentiment.put(word, 1);
+                }
+            }
+            sentimentTrainingDataMap.get(sentiment).setSentiment(sentimentMap.get(sentiment));
+            sentimentTrainingDataMap.get(sentiment).setWordFrequency(wordFrequencyMapForSentiment);
+        }
+
+        wordSentimentFrequencyDAO.saveWordMap(sentimentTrainingDataMap);*/
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

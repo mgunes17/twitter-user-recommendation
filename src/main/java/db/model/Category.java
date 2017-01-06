@@ -22,10 +22,10 @@ public class Category implements Serializable{
     @Column(name = "title")
     private String title;
 
-    @OneToMany(mappedBy="wordFrequencyPK.category", targetEntity=WordFrequency.class,
+    @OneToMany(mappedBy="wordCategoryFrequencyPK.category", targetEntity=WordCategoryFrequency.class,
             fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<WordFrequency> wordFrequencies = new ArrayList<WordFrequency>();
+    private List<WordCategoryFrequency> wordFrequencies = new ArrayList<WordCategoryFrequency>();
 
     public Category() {
         super();
@@ -52,11 +52,11 @@ public class Category implements Serializable{
         this.title = title;
     }
 
-    public List<WordFrequency> getWordFrequencies() {
+    public List<WordCategoryFrequency> getWordFrequencies() {
         return wordFrequencies;
     }
 
-    public void setWordFrequencies(List<WordFrequency> wordFrequencies) {
+    public void setWordFrequencies(List<WordCategoryFrequency> wordFrequencies) {
         this.wordFrequencies = wordFrequencies;
     }
 }

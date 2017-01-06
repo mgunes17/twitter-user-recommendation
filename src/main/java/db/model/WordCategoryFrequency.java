@@ -1,6 +1,6 @@
 package db.model;
 
-import db.compositekey.WordFrequencyPK;
+import db.compositekey.WordCategoryFrequencyPK;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,11 +9,11 @@ import java.io.Serializable;
  * Created by mgunes on 18.12.2016.
  */
 @Entity
-@Table(name = "word_frequency27")
-public class WordFrequency implements Serializable{
+@Table(name = "word_category_frequency")
+public class WordCategoryFrequency implements Serializable{
 
     @EmbeddedId
-    private WordFrequencyPK wordFrequencyPK;
+    private WordCategoryFrequencyPK wordCategoryFrequencyPK;
 
     @Column(name = "id")
     private int id;
@@ -29,12 +29,12 @@ public class WordFrequency implements Serializable{
         this.id = id;
     }
 
-    public WordFrequencyPK getWordFrequencyPK() {
-        return wordFrequencyPK;
+    public WordCategoryFrequencyPK getWordCategoryFrequencyPK() {
+        return wordCategoryFrequencyPK;
     }
 
-    public void setWordFrequencyPK(WordFrequencyPK wordFrequencyPK) {
-        this.wordFrequencyPK = wordFrequencyPK;
+    public void setWordCategoryFrequencyPK(WordCategoryFrequencyPK wordCategoryFrequencyPK) {
+        this.wordCategoryFrequencyPK = wordCategoryFrequencyPK;
     }
 
     public int getCount() {

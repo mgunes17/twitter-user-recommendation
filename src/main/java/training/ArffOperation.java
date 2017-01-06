@@ -1,8 +1,8 @@
 package training;
 
-import db.hibernate.WordFrequencyDAO;
+import db.hibernate.WordCategoryFrequencyDAO;
 import db.model.ParsedTweet;
-import db.model.WordFrequency;
+import db.model.WordCategoryFrequency;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -95,12 +95,12 @@ public class ArffOperation {
     }
 
     private List<String> getSortedWordListAsString(){
-        WordFrequencyDAO wordFrequencyDAO = new WordFrequencyDAO();
-        List<WordFrequency> wordFrequencyList = wordFrequencyDAO.getWordFrequencyList();
+        WordCategoryFrequencyDAO wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
+        List<WordCategoryFrequency> wordCategoryFrequencyList = wordCategoryFrequencyDAO.getWordFrequencyList();
         List<String> wordsAsStrings = new ArrayList<String>();
 
-        for(WordFrequency wf : wordFrequencyList){
-            wordsAsStrings.add(wf.getWordFrequencyPK().getWord());
+        for(WordCategoryFrequency wf : wordCategoryFrequencyList){
+            wordsAsStrings.add(wf.getWordCategoryFrequencyPK().getWord());
         }
 
         Collections.sort(wordsAsStrings, new Comparator<String>() {

@@ -1,22 +1,23 @@
 package training;
 
-import db.hibernate.WordFrequencyDAO;
+import db.hibernate.WordCategoryFrequencyDAO;
+import db.hibernate.WordSentimentFrequencyDAO;
 
-/**
- * Created by mgunes on 22.12.2016.
- */
 public class TfIdf {
     private String tweet;
-    private WordFrequencyDAO wordFrequencyDAO;
+    private WordCategoryFrequencyDAO wordCategoryFrequencyDAO;
+    private WordSentimentFrequencyDAO wordSentimentFrequencyDAO;
 
     public TfIdf() {
         super();
-        wordFrequencyDAO = new WordFrequencyDAO();
+        wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
+        wordSentimentFrequencyDAO = new WordSentimentFrequencyDAO();
     }
 
     public TfIdf(String tweet) {
         this.tweet = tweet;
-        wordFrequencyDAO = new WordFrequencyDAO();
+        wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
+        wordSentimentFrequencyDAO = new WordSentimentFrequencyDAO();
     }
 
     public String findCategory() {
@@ -44,8 +45,8 @@ public class TfIdf {
     }
 
     private double computeTfIdf(String word, int id) {
-        double idf = (double) wordFrequencyDAO.occurenceOnCategory(word, id) / wordFrequencyDAO.occurenceAllCategory(word);
-        double tf = (double) wordFrequencyDAO.occurenceOnCategory(word, id) / wordFrequencyDAO.maxOccurenceOnCategory(id);
+        double idf = (double) wordCategoryFrequencyDAO.occurenceOnCategory(word, id) / wordCategoryFrequencyDAO.occurenceAllCategory(word);
+        double tf = (double) wordCategoryFrequencyDAO.occurenceOnCategory(word, id) / wordCategoryFrequencyDAO.maxOccurenceOnCategory(id);
 
         return tf * idf;
     }
@@ -103,8 +104,8 @@ public class TfIdf {
     }
 
     private double computeTfIdfForSentiment(String word, int id) {
-        double idf = (double) wordFrequencyDAO.occurenceOnSentiment(word, id) / wordFrequencyDAO.occurenceAllCategory(word);
-        double tf = (double) wordFrequencyDAO.occurenceOnSentiment(word, id) / wordFrequencyDAO.maxOccurenceOnSentiment(id);
+        double idf = (double) wordSentimentFrequencyDAO.occurenceOnSentiment(word, id) / wordSentimentFrequencyDAO.occurenceOnAllSentiment(word);
+        double tf = (double) wordSentimentFrequencyDAO.occurenceOnSentiment(word, id) / wordSentimentFrequencyDAO.maxOccurenceOnSentiment(id);
 
         return tf * idf;
     }
