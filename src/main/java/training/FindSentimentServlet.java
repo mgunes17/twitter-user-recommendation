@@ -16,8 +16,7 @@ public class FindSentimentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String tweet = request.getParameter("tweet");
 
-        TfIdf tfIdf = new TfIdf();
-        tfIdf.setTweet(tweet);
+        TfIdf tfIdf = new TfIdf(tweet);
 
         String category = tfIdf.findCategory();
         String sentiment = tfIdf.findSentiment();
