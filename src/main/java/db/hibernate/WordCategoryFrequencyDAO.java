@@ -126,12 +126,12 @@ public class WordCategoryFrequencyDAO extends AbstractDAO {
             session.beginTransaction();
             SQLQuery query = session.createSQLQuery(sql);
             List list = query.list();
-            session.getTransaction().commit();
 
             if(list.size() > 0)
                 return (Integer) list.get(0);
             else
                 return 1;
+
         } catch (Exception e) {
             System.out.println("findCount:" + e.getMessage());
             e.printStackTrace();
