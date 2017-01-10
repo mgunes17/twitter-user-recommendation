@@ -5,12 +5,10 @@ import db.model.Sentiment;
 import db.model.WordCategoryFrequency;
 import db.model.WordSentimentFrequency;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mgunes on 10.01.2017.
- */
 public class WordStatistic {
     private Map<Category, List<WordCategoryFrequency>> categoryList;
     private Map<Sentiment, List<WordSentimentFrequency>> sentimentList;
@@ -18,6 +16,8 @@ public class WordStatistic {
 
     public WordStatistic() {
         super();
+        categoryList = new HashMap<Category, List<WordCategoryFrequency>>();
+        sentimentList = new HashMap<Sentiment, List<WordSentimentFrequency>>();
     }
 
     public Map<Category, List<WordCategoryFrequency>> getCategoryList() {
