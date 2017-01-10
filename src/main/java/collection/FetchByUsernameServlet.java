@@ -18,9 +18,10 @@ import java.util.List;
 @WebServlet(name = "FetchByUsernameServlet", urlPatterns = {"/fetchbyusername"})
 public class FetchByUsernameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("UTF-8");
         HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("arff", 0);
+
         String username = request.getParameter("keyword");
         int count = Integer.parseInt(request.getParameter("count"));
         FetchTweet fetchTweet = new FetchTweet(username, count);

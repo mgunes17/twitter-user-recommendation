@@ -1,10 +1,12 @@
 package db.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mgunes on 18.12.2016.
@@ -29,6 +31,11 @@ public class Sentiment implements Serializable {
         this.id = id;
     }
 
+    @OneToMany(mappedBy="wordSentimentFrequencyPK.sentiment", targetEntity=WordSentimentFrequency.class,
+            fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<WordSentimentFrequency> wordFrequencies = new ArrayList<WordSentimentFrequency>();
+
     //getter-setter
     public int getId() {
         return id;
@@ -44,5 +51,13 @@ public class Sentiment implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<WordSentimentFrequency> getWordFrequencies() {
+        return wordFrequencies;
+    }
+
+    public void setWordFrequencies(List<WordSentimentFrequency> wordFrequencies) {
+        this.wordFrequencies = wordFrequencies;
     }
 }

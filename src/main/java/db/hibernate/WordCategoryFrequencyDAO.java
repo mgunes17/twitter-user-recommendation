@@ -6,6 +6,7 @@ import db.model.Category;
 import db.model.WordCategoryFrequency;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import statistics.TopWord;
 import training.CategoryTrainingData;
 
 import java.math.BigInteger;
@@ -140,5 +141,15 @@ public class WordCategoryFrequencyDAO extends AbstractDAO {
         } finally {
             session.close();
         }
+    }
+
+    public List<WordCategoryFrequency> getMaxWords(int id) {
+        String query = "SELECT * FROM word_category_frequency WHERE category = " + id + " ORDER BY count desc LIMIT 10 ";
+        return getRowsBySQLQuery(WordCategoryFrequency.class, query);
+    }
+
+    public List<TopWord> getTopList(int id) {
+        String query = "SELECT word, sum(count) FROM word_category_frequency WHERE category <> 7 GROUP BY word ORDER BY sum(count) DESC LIMIT 20 ";
+        return getRowsBySQLQuery(TopWord.class, query);
     }
 }
