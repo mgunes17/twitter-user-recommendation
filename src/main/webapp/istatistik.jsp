@@ -19,26 +19,72 @@
         <div class="jumbotron container-fluid">
             <div class="row">
                 <div class="col-md-2"></div>
-                <div class="col-md-4">
-                    <c:forEach var="item" items="${categoryList}">
-                        <h3>${item.title}</h3>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Kelime</th>
-                                <th>Sayısı</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="word" items="${item.wordFrequencies}">
-                                <tr>
-                                    <td>${word.wordCategoryFrequencyPK.word}</td>
-                                    <td>${word.count}</td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                <div class="col-md-3">
+                    <c:forEach var="entry" items="${istatistik.categoryList}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <p>${entry.key.title}</p>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <c:forEach var="item" items="${entry.value}">
+                                        <tr>
+                                            <td class="text-left">
+                                                <c:out value="${item.wordCategoryFrequencyPK.word}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <c:out value="${item.count}"/>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
+                        </div>
                     </c:forEach>
+                </div>
+                <div class="col-md-3">
+                    <c:forEach var="entry" items="${istatistik.sentimentList}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <p>${entry.key.title}</p>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <c:forEach var="item" items="${entry.value}">
+                                        <tr>
+                                            <td class="text-left">
+                                                <c:out value="${item.wordSentimentFrequencyPK.word}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <c:out value="${item.count}"/>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <p>En fazla geçen kelimeler</p>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <c:forEach var="item" items="${istatistik.topList}">
+                                    <tr>
+                                        <td class="text-left">
+                                            <c:out value="${item.word}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <c:out value="${item.count}"/>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

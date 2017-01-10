@@ -29,20 +29,20 @@ public class StatisticInitServlet extends HttpServlet {
 
         //kategori istatistik
         for(int i = 1; i < 7; i++) {
-            Category category = new Category(i);
             List<WordCategoryFrequency> categoryList = categoryFrequencyDAO.getMaxWords(i);
+            Category category = categoryList.get(0).getWordCategoryFrequencyPK().getCategory();
             wordStatistic.getCategoryList().put(category, categoryList);
         }
 
         //duygu istatistik
         for(int i = 1; i < 4; i++) {
-            Sentiment sentiment = new Sentiment(i);
             List<WordSentimentFrequency> sentimentList = sentimentFrequencyDAO.getMaxWords(i);
+            Sentiment sentiment = sentimentList.get(0).getWordSentimentFrequencyPK().getSentiment();
             wordStatistic.getSentimentList().put(sentiment, sentimentList);
         }
 
         //top 20 kelime
-        wordStatistic.setTopList(categoryFrequencyDAO.getTopList(20));
+        wordStatistic.setTopList(categoryFrequencyDAO.getTopList());
 
         HttpSession session = request.getSession();
         session.setAttribute("istatistik", wordStatistic);

@@ -10,6 +10,8 @@ import statistics.TopWord;
 import training.CategoryTrainingData;
 
 import java.math.BigInteger;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,8 +150,47 @@ public class WordCategoryFrequencyDAO extends AbstractDAO {
         return getRowsBySQLQuery(WordCategoryFrequency.class, query);
     }
 
-    public List<TopWord> getTopList(int id) {
-        String query = "SELECT word, sum(count) FROM word_category_frequency WHERE category <> 7 GROUP BY word ORDER BY sum(count) DESC LIMIT 20 ";
-        return getRowsBySQLQuery(TopWord.class, query);
+    public List<TopWord> getTopList() {
+        Connection connection = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/user_recommendation","postgres", "postgres");
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT word, sum(count) FROM word_category_frequency WHERE category <> 7 GROUP BY word ORDER BY sum(count) DESC LIMIT 20 ";
+
+            ResultSet resultSet = statement.executeQuery(query);
+            List<TopWord> topWords = new ArrayList<TopWord>();
+
+            while(resultSet.next()){
+                String word = resultSet.getString(1);
+                int count = resultSet.getInt(2);
+                topWords.add(new TopWord(word, count));
+            }
+            connection.close();
+            return topWords;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        /*String query = "SELECT word, sum(count) FROM word_category_frequency WHERE category <> 7 GROUP BY word ORDER BY sum(count) DESC LIMIT 20 ";
+        List<WordCategoryFrequency> wordCategoryFrequencyList =  getRowsBySQLQuery(WordCategoryFrequency.class, query);
+
+        int count = 0;
+        List<TopWord> topWords = new ArrayList<TopWord>();
+        for(WordCategoryFrequency wcf: wordCategoryFrequencyList){
+            query = "SELECT * FROM word_category_frequency WHERE word = '" + wcf.getWordCategoryFrequencyPK().getWord() + "'";
+            List<WordCategoryFrequency> list =  getRowsBySQLQuery(WordCategoryFrequency.class, query);
+            for(WordCategoryFrequency w: list){
+                count += w.getCount();
+            }
+            topWords.add(new TopWord(wcf.getWordCategoryFrequencyPK().getWord(), count));
+            count = 0;
+        }*/
     }
 }
