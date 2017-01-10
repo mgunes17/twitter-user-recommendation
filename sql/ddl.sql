@@ -38,17 +38,19 @@ CREATE TABLE ordered_word_list (
 );
 
 CREATE TABLE word_category_frequency(
-	id int primary key,
+	id int,
 	category int REFERENCES category(id),
 	word varchar(100),
-	count int
+	count int,
+	primary key(category, word)
 );
 
 CREATE TABLE word_sentiment_frequency(
-	id int primary key,
+	id int,
 	sentiment int REFERENCES sentiment(id),
 	word varchar(100),
-	count int
+	count int,
+	primary key(sentiment, word)
 );
 
 CREATE TABLE account_analyze (

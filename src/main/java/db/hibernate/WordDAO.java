@@ -2,15 +2,14 @@ package db.hibernate;
 
 import configuration.HibernateConfiguration;
 import db.model.AllWords;
+import db.model.Sentiment;
+import db.model.StopWords;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import java.util.List;
+import java.util.*;
 
-/**
- * Created by mgunes on 17.12.2016.
- */
-public class WordDAO {
+public class WordDAO extends AbstractDAO{
     private Session session;
 
     public boolean isWordExist(String word) {
@@ -22,6 +21,22 @@ public class WordDAO {
         String hql = "FROM StopWords WHERE word = :word";
         return isObjectExist(word, hql);
     }
+
+    public List<StopWords> getStopWordsList(){
+        return getAllRows("StopWords");
+    }
+
+    public Set<String> getStopWords(){
+        List<StopWords> stopWords = getStopWordsList();
+        Set<String> stopWordSet = new HashSet<String>();
+
+        for(StopWords sw: stopWords){
+            stopWordSet.add(sw.getWord());
+        }
+        return stopWordSet;
+    }
+
+
 
     public boolean isObjectExist(String word, String hql) {
         session = HibernateConfiguration.getSessionFactory().openSession();

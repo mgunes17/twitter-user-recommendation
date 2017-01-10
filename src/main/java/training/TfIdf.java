@@ -1,7 +1,10 @@
 package training;
 
 import db.hibernate.WordCategoryFrequencyDAO;
+import db.hibernate.WordDAO;
 import db.hibernate.WordSentimentFrequencyDAO;
+import db.model.StopWordSet;
+import db.model.StopWords;
 
 public class TfIdf {
     private String tweet;
@@ -35,7 +38,10 @@ public class TfIdf {
 
         for(String word: words) {
             for(int i = 1; i < 8; i++) {
-                values[i] += computeTfIdf(word, i);
+                if(!StopWordSet.STOP_WORD_SET.contains(word)){
+                    values[i] += computeTfIdf(word, i);
+                }
+
             }
         }
 
@@ -94,7 +100,9 @@ public class TfIdf {
 
         for(String word: words) {
             for(int i = 1; i < 4; i++) {
-                values[i] += computeTfIdfForSentiment(word, i);
+                if(!StopWordSet.STOP_WORD_SET.contains(word)){
+                    values[i] += computeTfIdfForSentiment(word, i);
+                }
             }
         }
 

@@ -4,6 +4,7 @@ import db.hibernate.*;
 import db.model.Category;
 import db.model.ParsedTweet;
 import db.model.Sentiment;
+import db.model.StopWordSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -90,6 +91,7 @@ public class SaveTrainingDataServlet extends HttpServlet {
         session.setAttribute("categoryList", categoryList);
 
         response.sendRedirect("kategori-kelime.jsp");
+
         /*ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
         List<ParsedTweet> parsedTweets = parsedTweetDAO.getTweetsWithLabeledSentiment();
 
@@ -115,6 +117,66 @@ public class SaveTrainingDataServlet extends HttpServlet {
         }
 
         wordSentimentFrequencyDAO.saveWordMap(sentimentTrainingDataMap);*/
+
+        /*StopWordSet stopWordSet = new StopWordSet();
+        ParsedTweetDAO parsedTweetDAO = new ParsedTweetDAO();
+        List<ParsedTweet> parsedTweets = parsedTweetDAO.getLabeledTweet();
+
+        SentimentDAO sentimentDAO = new SentimentDAO();
+        CategoryDAO categoryDAO = new CategoryDAO();
+        Map<Integer, Sentiment> sentimentMap = sentimentDAO.getSentimentAsMap();
+        Map<Integer, Category> categoryMap = categoryDAO.getCategoryAsMap();
+
+        WordCategoryFrequencyDAO wordCategoryFrequencyDAO = new WordCategoryFrequencyDAO();
+        Map<Integer, CategoryTrainingData> categoryTrainingDataMap = wordCategoryFrequencyDAO.setupCategoryTrainingData();
+
+        WordSentimentFrequencyDAO wordSentimentFrequencyDAO = new WordSentimentFrequencyDAO();
+        Map<Integer, SentimentTrainingData> sentimentTrainingDataMap = wordSentimentFrequencyDAO.setupSentimentTrainingData();
+
+        int category;
+        int sentiment;
+        for(ParsedTweet pt: parsedTweets){
+            String [] tweetWords = pt.getOrderedWords().split("-");
+
+            category = pt.getCategory().getId();
+            sentiment = pt.getSentiment().getId();
+
+            Map<String, Integer> wordFrequencyMapForCategory = categoryTrainingDataMap.get(category).getWordFrequency();
+            Map<String, Integer> wordFrequencyMapForSentiment = sentimentTrainingDataMap.get(sentiment).getWordFrequency();
+
+            int value;
+            for(String word: tweetWords){
+                if(!StopWordSet.STOP_WORD_SET.contains(word)){
+                    word = word.trim();
+                    if(wordFrequencyMapForCategory.containsKey(word)){
+                        value = wordFrequencyMapForCategory.get(word);
+                        wordFrequencyMapForCategory.put(word, ++value);
+                    } else {
+                        wordFrequencyMapForCategory.put(word, 1);
+                    }
+
+                    if(wordFrequencyMapForSentiment.containsKey(word)){
+                        value = wordFrequencyMapForSentiment.get(word);
+                        wordFrequencyMapForSentiment.put(word, ++value);
+                    } else {
+                        wordFrequencyMapForSentiment.put(word, 1);
+                    }
+                }
+            }
+
+            sentimentTrainingDataMap.get(sentiment).setSentiment(sentimentMap.get(sentiment));
+            sentimentTrainingDataMap.get(sentiment).setWordFrequency(wordFrequencyMapForSentiment);
+
+            categoryTrainingDataMap.get(category).setCategory(categoryMap.get(category));
+            categoryTrainingDataMap.get(category).setWordFrequency(wordFrequencyMapForCategory);
+        }
+
+        wordCategoryFrequencyDAO.saveWordMap(categoryTrainingDataMap);
+        wordSentimentFrequencyDAO.saveWordMap(sentimentTrainingDataMap);
+
+        response.sendRedirect("kategori-kelime.jsp");*/
+
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
