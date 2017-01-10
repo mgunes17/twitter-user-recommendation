@@ -22,6 +22,11 @@ import java.util.Map;
 public class WordSentimentFrequencyDAO extends AbstractDAO {
     private Session session;
 
+    public List<WordSentimentFrequency> getMaxWords(int id) {
+        String query = "SELECT * FROM word_sentiment_frequency WHERE sentiment = " + id + " ORDER BY count desc LIMIT 10 ";
+        return getRowsBySQLQuery(WordSentimentFrequency.class, query);
+    }
+
     public List<WordSentimentFrequency> getWordFrequencyList(){
         return getAllRows("WordSentimentFrequency");
     }

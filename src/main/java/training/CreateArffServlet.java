@@ -28,6 +28,7 @@ public class CreateArffServlet extends HttpServlet {
         boolean operation = arffOperation.createArff(parsedTweetList);
 
         HttpSession session = request.getSession();
+        session.setAttribute("isSaved", 0);
 
         if(operation == true) {
             session.setAttribute("arff", 1);

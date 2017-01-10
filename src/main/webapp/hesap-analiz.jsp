@@ -15,7 +15,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <div class="container-fluid">
+        <jsp:include page="menu.html"/>
+        <div class="jumbotron container-fluid">
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-3">

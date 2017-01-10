@@ -2,6 +2,7 @@ package db.hibernate;
 
 import configuration.HibernateConfiguration;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -12,6 +13,26 @@ import java.util.List;
 
 public class AbstractDAO {
     private Session session;
+
+    protected <T> List<T> getRowsBySQLQuery(Class<T> c, String query) {
+        try {
+            session = HibernateConfiguration.getSessionFactory().openSession();
+            session.beginTransaction();
+            SQLQuery q = session.createSQLQuery(query);
+            q.addEntity(c);
+
+            List<T> rows = q.list();
+            session.getTransaction().commit();
+            return rows;
+
+        } catch(Exception ex) {
+            System.err.println("Sorguya göre veri çekme işlemi başarısız: "+ ex.getMessage()); // logla
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
 
     protected <T> boolean saveList(List<T> list) {
         session = HibernateConfiguration.getSessionFactory().openSession();
