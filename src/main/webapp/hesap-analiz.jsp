@@ -30,20 +30,41 @@
                 </div>
                 <div class="col-md-3">
                     <h4><b>Hesap Analizi</b></h4>
-                    <table>
-                        <tr>
-                            <th>Tweet Sayısı</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <c:forEach var="item" items="${}">
-
-                            </c:forEach>
-                        </tr>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Kategori</th>
+                                <th>Yüzde</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="item" items="${analyze}">
+                            <tr>
+                                <td>${item.pk.category.title}</td>
+                                <td>${item.weight}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
                     </table>
                 </div>
                 <div class="col-md-3">
                     <h4><b>En benzer kullanıcılar</b></h4>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Kullanıcı Adı</th>
+                                <th>Eşleşme Sayısı</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="item" items="${recommendations}">
+                                <tr>
+                                    <td>${item.userName}</td>
+                                    <td>${item.count}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

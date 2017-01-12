@@ -14,7 +14,7 @@ import java.util.List;
 public class AbstractDAO {
     private Session session;
 
-    protected <T> List<T> getRowsBySQLQuery(Class<T> c, String query) {
+    public <T> List<T> getRowsBySQLQuery(Class<T> c, String query) {
         try {
             session = HibernateConfiguration.getSessionFactory().openSession();
             session.beginTransaction();
@@ -34,7 +34,7 @@ public class AbstractDAO {
         }
     }
 
-    protected <T> boolean saveList(List<T> list) {
+    public <T> boolean saveList(List<T> list) {
         session = HibernateConfiguration.getSessionFactory().openSession();
 
         try {
@@ -44,7 +44,6 @@ public class AbstractDAO {
                 session.saveOrUpdate(pl);
             }
 
-            session.flush();
             session.getTransaction().commit();
             return true;
         } catch (Exception ex) {
@@ -56,7 +55,7 @@ public class AbstractDAO {
         }
     }
 
-    protected <T> List<T> getAllRows(String className) {
+    public <T> List<T> getAllRows(String className) {
         session = HibernateConfiguration.getSessionFactory().openSession();
 
         try {

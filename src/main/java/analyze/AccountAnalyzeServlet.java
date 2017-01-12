@@ -5,10 +5,8 @@ import db.compositekey.AccountAnalyzePK;
 import db.hibernate.AccountAnalyzeDAO;
 import db.hibernate.AccountWordAnalyzeDAO;
 import db.hibernate.CategoryDAO;
-import db.model.AccountAnalyze;
-import db.model.Category;
-import db.model.ParsedTweet;
-import db.model.PlainTweet;
+import db.hibernate.RecommendationDAO;
+import db.model.*;
 import parsing.ParseAlgorithm;
 import training.TfIdf;
 
@@ -24,9 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mgunes on 06.01.2017.
- */
+
 @WebServlet(name = "AccountAnalyzeServlet", urlPatterns = {"/accountanalyze"})
 public class AccountAnalyzeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,6 +30,8 @@ public class AccountAnalyzeServlet extends HttpServlet {
         String username = request.getParameter("username");
         FetchTweet fetchTweet = new FetchTweet(username, 200);
         List<PlainTweet> plainTweetList = fetchTweet.getTweetsByUsername();
+        StopWordSet stopWordSet = new StopWordSet();
+
 
         ParseAlgorithm parseAlgorithm = new ParseAlgorithm();
         parseAlgorithm.parsePlainTweets(plainTweetList);
@@ -93,12 +91,14 @@ public class AccountAnalyzeServlet extends HttpServlet {
             pk.setCategory(new Category(i));
             pk.setUserName(username);
             accountAnalyze.setPk(pk);
-            accountAnalyze.setWeight(categoryWeight[i] * 100 / plainTweetList.size());
+            accountAnalyze.setWeight((categoryWeight[i] * 100) / plainTweetList.size());
             accountAnalyzes.add(accountAnalyze);
         }
 
         AccountAnalyzeDAO accountAnalyzeDAO = new AccountAnalyzeDAO();
         accountAnalyzeDAO.saveAnalyzeList(accountAnalyzes);
+
+
 
         /*
             En yakın kullanıcıların listesini çek
@@ -106,7 +106,12 @@ public class AccountAnalyzeServlet extends HttpServlet {
             Kendi kayıtlarını sırayla çek sorguda Diğer i hariç
         */
 
+        List<AccountAnalyze> analyzes = accountAnalyzeDAO.getUserAnalyze(username);
+        List<Recommendation> recommendations = new RecommendationDAO().getRecommendationList(username);
+
         HttpSession session = request.getSession();
+        session.setAttribute("analyze", analyzes);
+        session.setAttribute("recommendations", recommendations);
         response.sendRedirect("hesap-analiz.jsp");
     }
 

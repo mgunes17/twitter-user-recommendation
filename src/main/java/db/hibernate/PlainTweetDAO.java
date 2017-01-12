@@ -43,4 +43,26 @@ public class PlainTweetDAO extends AbstractDAO {
             session.close();
         }
     }
+
+    public List<PlainTweet> getByUsername(String username) {
+        List<PlainTweet> plainTweets;
+        session = HibernateConfiguration.getSessionFactory().openSession();
+
+        try {
+            session.beginTransaction();
+
+            String sql = "from PlainTweet where screenName = '" + username + "'";
+            Query query = session.createQuery(sql);
+            plainTweets =  query.list();
+
+            return plainTweets;
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
 }
