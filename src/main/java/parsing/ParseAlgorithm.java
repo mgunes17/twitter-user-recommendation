@@ -18,9 +18,15 @@ import java.util.List;
 
 public class ParseAlgorithm {
     private List<ParsedTweet> parsedTweets;
+    private TurkishMorphology morphology;
 
     public ParseAlgorithm() {
         parsedTweets = new ArrayList<ParsedTweet>();
+        try {
+            morphology = TurkishMorphology.createWithDefaults();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int parseNewTweets() {
@@ -37,64 +43,58 @@ public class ParseAlgorithm {
     }
 
     public int parsePlainTweets(List<PlainTweet> plainTweets) {
-        TurkishMorphology morphology = null;
         ParsedTweet parsedTweet ;
         WordDAO wordDAO = new WordDAO();
         int count = 0;
         WordAlgorithm wordAlgorithm = new WordAlgorithm();
 
-        try {
-            morphology = TurkishMorphology.createWithDefaults();
 
-            for(PlainTweet plainTweet: plainTweets) {
-                StringBuilder tempWords = new StringBuilder();
-                parsedTweet = new ParsedTweet();
-                String[] words = plainTweet.getTweet().split(" ");
+        for(PlainTweet plainTweet: plainTweets) {
+            StringBuilder tempWords = new StringBuilder();
+            parsedTweet = new ParsedTweet();
+            String[] words = plainTweet.getTweet().split(" ");
 
-                //kelime başındaki-sonundaki . , ! ? = " " ( ) temizlenecek
-                words = cleanPunctuation(words);
+            //kelime başındaki-sonundaki . , ! ? = " " ( ) temizlenecek
+            words = cleanPunctuation(words);
 
-                //parsedTweet.setHashtag(findHashtag(words));
+            //parsedTweet.setHashtag(findHashtag(words));
 
-                parsedTweet.setId(plainTweet.getId());
+            parsedTweet.setId(plainTweet.getId());
 
-                int countedWords = 0; //zemberek tarafından parse edilebilen kelime sayısı
-                int totalWords = 0; // özel isim, hashtag, mention hariç kelime sayısı
+            int countedWords = 0; //zemberek tarafından parse edilebilen kelime sayısı
+            int totalWords = 0; // özel isim, hashtag, mention hariç kelime sayısı
 
-                for(String word: words) {
-                    word = word.toLowerCase();
+            for(String word: words) {
+                word = word.toLowerCase();
 
-                    if(!word.contains("#") && !word.contains("@") && !word.contains("'")
-                            && word.length() > 3 && !word.equals("rt")){
-                        totalWords++;
-                        try{
-                            //köküne ayır
-                            List<WordAnalysis> results = morphology.analyze(word);
+                if(!word.contains("#") && !word.contains("@") && !word.contains("'")
+                        && word.length() > 3 && !word.equals("rt")){
+                    totalWords++;
+                    try{
+                        //köküne ayır
+                        List<WordAnalysis> results = morphology.analyze(word);
 
-                            //kelime sözlükte var
-                            if(results.get(0).getLemma().length() > 3) {
-                                countedWords++;
+                        //kelime sözlükte var
+                        if(results.get(0).getLemma().length() > 3) {
+                            countedWords++;
 
-                                if(!wordDAO.isStopWord(word)) {
-                                    tempWords.append(results.get(0).getLemma() + "-");
-                                }
+                            if(!wordDAO.isStopWord(word)) {
+                                tempWords.append(results.get(0).getLemma() + "-");
                             }
-                        } catch(Exception ex){
-                            System.out.println(ex.getMessage());
                         }
-
+                    } catch(Exception ex){
+                        System.out.println(ex.getMessage());
                     }
-                    parsedTweet.setOrderedWords(tempWords.toString());
-                }
 
-                if(countedWords > 0) {
-                    parsedTweet.setImpactRate((float)countedWords / totalWords);
-                    count++;
-                    parsedTweets.add(parsedTweet);
                 }
+                parsedTweet.setOrderedWords(tempWords.toString());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            if(countedWords > 0) {
+                parsedTweet.setImpactRate((float)countedWords / totalWords);
+                count++;
+                parsedTweets.add(parsedTweet);
+            }
         }
 
         return count;
